@@ -1,4 +1,3 @@
-rm(list = ls())
 source('./utils/index.R')
 handleWd('/inla-species-distributions')
 
@@ -33,7 +32,7 @@ table['DBH σ'] <- tapply(data$DBH, data$species, function(el){
 
 # write the table
 write.csv(table, file = './tables/sepilok_160ha_plot.table.csv', row.names = FALSE)
-
+write.csv(table[c("species", "sp")], file = "./tables/species-list-plot.table.csv", row.names = FALSE)
 # reset the working directory
 resetWd()
 
