@@ -1,4 +1,5 @@
-# Function for clearing the work space
-clear <- function() {
-  rm(list = ls())
-}
+# Clearing the work space after resetting the working dir 
+source('./utils/resetWd.R')
+resetWd()
+rm(list = ls())
+
