@@ -8,5 +8,6 @@
   </head>
   <body>
     <h3>Data files readme...</h3>
+    <p>This folder contains all the raw data files used in the analysis. Any additional data analysis files are aggregated from these.</p>
   </body>
 </html>
