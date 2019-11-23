@@ -20,11 +20,14 @@ for(i in 1:length(table$species)){
     n[i] <- NA
   } else {
     n[i] <- count
-  }
+  } 
 }
 
 table$density <- density
 table$sd <- sd
 table$n <- n
 table
+write.csv(table, file = "./sepilok-wood-density.table.csv", row.names = FALSE)
+
+
 resetWd()
