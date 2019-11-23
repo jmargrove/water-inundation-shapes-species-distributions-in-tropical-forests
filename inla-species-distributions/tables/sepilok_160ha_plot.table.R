@@ -2,12 +2,9 @@ source('./utils/index.R')
 handleWd('/inla-species-distributions')
 
 # Import the table data
-data <- read.csv('data/sepilok-160ha-plot.csv')
-str(data)
+table <- read.csv('./tables/species-list-plot.table.csv')
 
-# set up table with species values
-table <- data.frame(species = as.character(levels(data$species)))
-table$sp <- as.character(levels(data$sp))
+# add minium size limits 
 table$minimum_size <- aggregate(data$minimum_size, by = list(data$species), mean)[, 2]
 
 # count the number of individuals in the plot 
