@@ -1,6 +1,6 @@
-ls(list = ls())
-wd_database <- read.csv('./data/wood-density-database.csv')
-table <-  read.csv('./summary-tables/species-list-plot.table.csv')
+rm(list = ls())
+wd_database <- read.csv('./src/data/wood-density-database.csv')
+table <-  read.csv('./src/summary-tables/species-list-plot.table.csv')
 
 # Creating empty variables 
 density <- c()
@@ -25,6 +25,6 @@ table$density <- density
 table$sd <- sd
 table$n <- n
 
-write.csv(table, file = "./summary-tables/sepilok-wood-density.table.csv", row.names = FALSE)
+write.csv(table, file = "./src/summary-tables/sepilok-wood-density.table.csv", row.names = FALSE)
 
 
