@@ -1,27 +1,36 @@
-# Testing the inla-spde models for species distributions. 
+# Testing the inla-spde models for focalSpecies distributions. 
+library(future)
+
+  
 
 data <- read.csv('./src/data/sepilok-160ha-plot.csv')
 # Take one species 
+speciesWithMinNumber <- which(tapply(data$species, data$species, length) > 30)
+df <- data.frame(data[0,], focalSpecies = data[0, 1])
 
-df <- data.frame(data[0,])
-for(species in levels(data$species)){
+
+names(speciesWithMinNumber)
+
+for(species in names(speciesWithMinNumber)){
   restrictedDf <- data[, c("sp", "species", "longitude", "latitude", "elevation")]
   restrictedDf$occurance <- rep(0, length(restrictedDf$sp))
   restrictedDf$occurance[which(restrictedDf$species == species)] <- 1
-  rbind(df, restrictedDf)
+  restrictedDf$focalSpecies <- rep(species, length(restrictedDf$species))
+  df <- rbind(df, restrictedDf)
 }
 
-str(sxan)
+str(df)
+head(df)
 # Construct an inla 
 library(INLA)
 
-coords <- with(sxan, cbind(longitude, latitude))
+coords <- with(df, cbind(longitude, latitude))
 mesh <- inla.mesh.2d(coords, max.edge = c(300, 500), 
-                     cutoff = 100, 
+                     cutoff = 20, 
                      offset=c(200,400))
 # priors 
-rho0 <- 294.69
-sig0 <- 1.27
+rho0 <- 20
+sig0 <- 0.5
 
 
 # spde
@@ -35,17 +44,16 @@ A <- inla.spde.make.A(mesh, loc=as.matrix(coords))
 
 # stk 
 stk <- inla.stack(tag = "stk", 
-                  data = list(occurance = sxan$occurance), 
+                  data = list(occurance = df$occurance), 
                   A = list(A, 1), 
                   effects = list(list(i = 1:spde$n.spde),
                                  data.frame(int = 1,
-                                            elevation = sxan$elevation,
-                                            species = sxan$species)))
+                                            elevation = df$elevation,
+                                            focalSpecies = df$focalSpecies)))
 
 # formula 
-formula1 <- occurance ~ 0 + int + elevation + I(elevation^2) + f(i, model = spde)
+formula1 <- occurance ~ 0 + int + focalSpecies * elevation + I(elevation^2) + f(i, model = spde)
 
-# model 1 with the linear effect of elevation 
 model1 <- inla(formula1, 
                data = inla.stack.data(stk),
                control.predictor = list(A = inla.stack.A(stk)),
@@ -53,5 +61,4 @@ model1 <- inla(formula1,
                family = "binomial")
 
 summary(model1)
-
 
