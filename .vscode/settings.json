@@ -1,0 +1,23 @@
+{
+  "r.editor.formatOnType": true,
+  "r.editor.bracesOnNewLine": true,
+  "editor.formatOnSave": true,
+  "r.dependencyChecks": true,
+  "r.editor.tabSize": 4,
+  "r.linting.assignmentType": true,
+  "r.linting.camelCase": false,
+  "r.linting.enable": true,
+  "r.linting.maxLineLength": 80,
+  "r.editor.breakMultipleStatements": true,
+  "r.linting.doubleQuotes": true,
+  "r.editor.spacesAroundEquals": true,
+  "r.editor.spaceAfterKeyword": true,
+  "r.editor.formatScope": true,
+  "r.linting.noTabs": true,
+  "r.linting.noSpaceAfterFunctionName": true,
+  "r.linting.semicolons": true,
+  "r.linting.trueFalseNames": true,
+  "r.linting.upperCase": false,
+  "r.linting.spaceBeforeOpenBrace": true,
+  "r.editor.spaceAfterComma": true
+}

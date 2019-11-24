@@ -8,23 +8,23 @@ table
 table$minimum_size <- aggregate(plot_data$minimum_size, by = list(plot_data$species), mean)[, 2]
 
 # count the number of individuals in the plot 
-table["count"] <- tapply(plot_data$DBH, plot_data$species, function(el){
-  length(el) 
+table["count"] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+    length(el)
 })
 
 # calculate the density per ha
-table["density"] <- tapply(plot_data$DBH, plot_data$species, function(el){
-  round(length(el) / 180, 3)
+table["density"] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+    round(length(el) / 180, 3)
 })
 
 # calculate the mean dbh 
-table["DBH-mean"] <- tapply(plot_data$DBH, plot_data$species, function(el){
-  round(mean(el), 1)
+table["DBH-mean"] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+    round(mean(el), 1)
 })
 
 # calculate the diameter at breast height standard devitation 
-table['DBH_sd'] <- tapply(plot_data$DBH, plot_data$species, function(el){
-  round(sd(el), 2)
+table['DBH_sd'] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+    round(sd(el), 2)
 })
 
 # write the table

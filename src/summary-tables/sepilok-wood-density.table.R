@@ -1,22 +1,22 @@
 rm(list = ls())
 wd_database <- read.csv('./src/data/wood-density-database.csv')
 paine_traits <- read.csv('./src/data/paine-functional-traits-data.csv')
-table <-  read.csv('./src/summary-tables/species-list-plot.table.csv')
-names(paine_traits)[ which(names(paine_traits) == "WD")] <- "wood_density"
+table <- read.csv('./src/summary-tables/species-list-plot.table.csv')
+names(paine_traits)[which(names(paine_traits) == "WD")] <- "wood_density"
 paine_traits$species <- paste(paine_traits$genus, paine_traits$species, sep = " ")
 
 raw_data <- rbind(
-  merge(table, wd_database)[, c("species", "wood_density")], 
+  merge(table, wd_database)[, c("species", "wood_density")],
   merge(table, paine_traits)[, c("species", "wood_density")]
   )
 str(raw_data)
 
-density <- tapply(raw_data$wood_density, raw_data$species, function(el){
-  return(round(mean(el, na.rm = TRUE), 2))
+density <- tapply(raw_data$wood_density, raw_data$species, function(el) {
+    return(round(mean(el, na.rm = TRUE), 2))
 })
 
-n <- tapply(raw_data$wood_density, raw_data$species, function(el){
-  length(el)
+n <- tapply(raw_data$wood_density, raw_data$species, function(el) {
+    length(el)
 })
 
 
