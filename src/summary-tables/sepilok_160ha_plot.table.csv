@@ -1,4 +1,4 @@
-"species","sp","minimum_size","count","density","DBH_mean","DBH_sd"
+"species","sp","minimum_size","count","density ha⁻¹","DBH μ","DBH σ"
 "Anisoptera costata","Acos",50,2,0.011,69,8.49
 "Dipterocarpus acutangulus","Dacu",40,111,0.617,NA,NA
 "Dipterocarpus applanatus","Dapp",40,3,0.017,64.2,17.96
@@ -38,7 +38,7 @@
 "Shorea symingtonii","Ssym",50,16,0.089,74.7,21.49
 "Shorea waltonii","Swal",50,58,0.322,84.5,25.51
 "Shorea xanthophylla","Sxan",30,641,3.561,NA,NA
-"Unknown ","Unkn",30,18,0.1,82.6,28.1
+"Unknown","Unkn",30,18,0.1,82.6,28.1
 "Vatica dulitensis","Vdul",30,4,0.022,41.5,11.26
 "Vatica micrantha","Vmic",30,11,0.061,38.5,6.8
 "Vatica oblongifolia","Vobl",30,41,0.228,44.1,9.58
