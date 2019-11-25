@@ -1,4 +1,5 @@
 rm(list = ls())
+source('./src/utils/units.R')
 
 # Import the table data
 table <- read.csv('./src/summary-tables/species-list-plot.table.csv')
@@ -13,19 +14,23 @@ table["count"] <- tapply(plot_data$DBH, plot_data$species, function(el) {
 })
 
 # calculate the density per ha
-table["density"] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+table[paste("density", PER_HA)] <- tapply(plot_data$DBH, plot_data$species, function(el) {
     round(length(el) / 180, 3)
 })
 
 # calculate the mean dbh 
-table["DBH-mean"] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+table[paste("DBH", mu)] <- tapply(plot_data$DBH, plot_data$species, function(el) {
     round(mean(el), 1)
 })
 
 # calculate the diameter at breast height standard devitation 
-table['DBH_sd'] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+table[paste('DBH', sigma)] <- tapply(plot_data$DBH, plot_data$species, function(el) {
     round(sd(el), 2)
 })
+
+# install.packages("formattable")
+library(formattable)
+formattable(table)
 
 # write the table
 write.csv(table, file = './src/summary-tables/sepilok_160ha_plot.table.csv', row.names = FALSE)

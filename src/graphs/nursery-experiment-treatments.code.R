@@ -13,12 +13,9 @@ for(i in 1:3){
   m_cylce <- cbind(m_cylce, m)
 }
 
+library(timevis)
+x <- as.data.frame(m_cylce)
+timevis(x)
 
-
-longData <- melt(m_cylce)
-p1 <- ggplot(longData, aes(x = Var2, y = Var1)) + 
-  geom_raster(aes(fill=value)) + 
-  scale_fill_gradient(low="white", high="black") +
-  labs(x="Day", y="Inundation Treatment") 
 
 ggsave(plot = p1, filename = './src/graphs/nursery-experiment-treatments.graph.png', device = "png")

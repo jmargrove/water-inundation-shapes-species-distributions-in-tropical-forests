@@ -7,11 +7,12 @@ Packages <- R6Class("Packages",
                 self$checkAndInstallPackages()
             },
           packages = list(
-            doSnow = list(name = "doSNOW",
+              doSnow = list(name = "doSNOW",
                           repos = "0-Cloud",
                           dep = TRUE
             ),
             lme4 = list(name = "lme4", repos = "0-Cloud", dep = TRUE),
+            lme4 = list(name = "timevis", repos = "0-Cloud", dep = TRUE),
             future = list(name = "future", repos = "0-Cloud", dep = TRUE),
             svglite = list(name = "svglite", repos = "0-Cloud", dep = TRUE),
             ggplot2 = list(name = "ggplot2", repos = "0-Cloud", dep = TRUE),
