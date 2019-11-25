@@ -1,4 +1,4 @@
-"Species","sp","minimum_size","count","density ha⁻¹","DBH μ","DBH σ"
+"Species","sp","Min Size","count","density ha⁻¹","DBH μ","DBH σ"
 "Anisoptera costata","Acos",50,2,0.011,69,8.49
 "Dipterocarpus acutangulus","Dacu",40,111,0.617,NA,NA
 "Dipterocarpus applanatus","Dapp",40,3,0.017,64.2,17.96
