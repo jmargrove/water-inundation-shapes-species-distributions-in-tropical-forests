@@ -1,6 +1,6 @@
 rm(list = ls())
 # Import the table data
-data <- read.csv('./src/data/sepilok-160ha-plot.csv')
+data <- read.csv('./src/data/sepilok-160ha-plot.raw.csv')
 str(data)
 
 # set up table with species values

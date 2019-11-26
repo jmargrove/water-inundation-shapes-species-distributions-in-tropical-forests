@@ -2,8 +2,8 @@ rm(list = ls())
 source('./src/utils/units.R')
 
 # Import the table data
-table <- read.csv('./src/summary-tables/species-list-plot.table.csv')
-plot_data <- read.csv('./src/data/sepilok-160ha-plot.csv')
+table <- read.csv('./src/summary-tables/species-list-plot.table.raw.csv')
+plot_data <- read.csv('./src/data/sepilok-160ha-plot.raw.csv')
 table
 # add minium size limits 
 table$minimum_size <- aggregate(plot_data$minimum_size, by = list(plot_data$species), mean)[, 2]
@@ -29,8 +29,8 @@ table[paste('DBH', sigma)] <- tapply(plot_data$DBH, plot_data$species, function(
 })
 
 # install.packages("formattable")
-library(formattable)
-formattable(table)
+names(table)[which(names(table) == 'species')] <- "Species"
+names(table)[which(names(table) == 'minimum_size')] <- "Min Size"
 
 # write the table
 write.csv(table, file = './src/summary-tables/sepilok_160ha_plot.table.csv', row.names = FALSE)

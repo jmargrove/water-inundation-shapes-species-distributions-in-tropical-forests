@@ -1,8 +1,11 @@
 rm(list = ls())
-wd_database <- read.csv('./src/data/wood-density-database.csv')
-paine_traits <- read.csv('./src/data/paine-functional-traits-data.csv')
-table <- read.csv('./src/summary-tables/species-list-plot.table.csv')
+
+wd_database <- read.csv('./src/data/wood-density-database.raw.csv')
+paine_traits <- read.csv('./src/data/paine-functional-traits-data.raw.csv')
+table <- read.csv('./src/summary-tables/species-list-plot.table.raw.csv')
 names(paine_traits)[which(names(paine_traits) == "WD")] <- "wood_density"
+
+
 paine_traits$species <- paste(paine_traits$genus, paine_traits$species, sep = " ")
 
 raw_data <- rbind(
@@ -46,4 +49,4 @@ data["Dipterocarpus caudiferus", "n"] <- length(grep("Dipterocarpus", as.charact
 data["Hopea spp.", "density"] <- mean(raw_data$wood_density[grep("Hopea", as.character(raw_data$species))], na.rm = TRUE)
 data["Hopea spp.", "n"] <- length(grep("Hopea", as.character(raw_data$species)))
 
-write.csv(data, file = "./src/summary-tables/sepilok-wood-density.table.csv", row.names = FALSE)
+write.csv(data, file = "./src/summary-tables/sepilok-adult-wood-density.table.csv", row.names = FALSE)
