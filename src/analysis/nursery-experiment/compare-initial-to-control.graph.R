@@ -13,11 +13,12 @@ library(ggplot2) # load pakage ggplot2
 str(data)
 
 # prediction dataframe 
+tcrit <- qt(0.975, model_max$df.residual)
 prediction_dataframe <- expand.grid(sp = levels(data$sp), time = levels(data$time)) # generate dataframe 
 prediction_dataframe$wood_density <- predict(model_max, prediction_dataframe) # predict
 se <- predict(model_max, prediction_dataframe, se.fit = TRUE)$se.fit # get standard error 
-prediction_dataframe$CI025 <- prediction_dataframe$wood_density + se * 1.96 # calculate the lower confidence interval 
-prediction_dataframe$CI975 <- prediction_dataframe$wood_density - se * 1.96 # calculate the upper confidence interval 
+prediction_dataframe$CI025 <- prediction_dataframe$wood_density + se * tcrit # calculate the lower confidence interval 
+prediction_dataframe$CI975 <- prediction_dataframe$wood_density - se * tcrit # calculate the upper confidence interval 
 
 # plot the results 
 p = ggplot(prediction_dataframe, aes(x = sp, y = wood_density, color = time)) + 
