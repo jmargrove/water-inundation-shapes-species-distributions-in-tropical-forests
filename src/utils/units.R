@@ -8,7 +8,7 @@ G <- "g"
 HA <- "ha"
 DEG <- "\U00B0"
 
-# Operators 
+# Superscript Operators 
 NEG <- "\U207B"
 POS <- "\U207A"
 
@@ -22,3 +22,6 @@ THREE <- "\U00B3"
 # Usefull combinations 
 PER_HA <- paste(HA, NEG, ONE, sep = "")
 PER_CM3 <- paste(CM, NEG, THREE, sep = "")
+
+
+
