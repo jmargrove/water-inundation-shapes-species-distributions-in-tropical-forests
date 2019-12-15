@@ -5,6 +5,8 @@ rm(list = ls())
 
 #' load packages 
 library(ggplot2)
+#' Load helper functions
+source('./src/utils/dAIC.R')
 
 #' load inital trait data
 trait_data <- read.csv("./src/data/nursery-experiment/wood-density-nursery-base.raw.csv")
@@ -34,17 +36,14 @@ model_max <- lm(wood_density ~ time * sp, data)
 model_additive <- update(model_max, . ~ . - sp:time)
 
 # compare models by AIC
-AIC(model_additive) # -464.6337
-AIC(model_max) # -461.1944
-AIC(model_max) - AIC(model_additive) 
+dAIC(model_max, model_additive)
 # 3.43927
 
 # plot the residuals 
 plot(model_max, which = 1) # good
 plot(model_max, which = 2) # good 
 plot(model_max, which = 3) # good 
-plot(model_max, which = 4) # good 
-# ok not exactly the best but good enought 
+# one slight outlier yet within possible range of wood density values.
 
 # save the model 
 save(model_max, file = "./src/analysis/nursery-experiment/compare-initial-to-control.model.R")
