@@ -14,8 +14,6 @@ if ("utf8" %in% rownames(installed.packages()) == FALSE){ # is R6 already instal
 }
 library(utf8) # load R56 package
 
-
-
 Packages <- R6Class("Packages",
           public = list(
             initialize = function() {
@@ -23,7 +21,10 @@ Packages <- R6Class("Packages",
             },
           packages = list(
             lme4 = list(name = "lme4", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
-            lme4 = list(name = "extrafont", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            vegan = list(name = "vegan", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            raster = list(name = "raster", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            Hmisc = list(name = "Hmisc", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            extrafont= list(name = "extrafont", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             svglite = list(name = "svglite", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             ggplot2 = list(name = "ggplot2", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             systemfonts = list(name = "systemfonts", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
