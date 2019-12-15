@@ -1,5 +1,20 @@
+#!/usr/bin/env Rscript --vanilla
 rm(list = ls())
-library("R6")
+
+r6 <- "R6"
+if (r6 %in% rownames(installed.packages()) == FALSE){ # is R6 already installed?
+  print('Installing R6 classes package')
+  install.packages('R6', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package 
+}
+library(R6) # load R56 package
+
+if ("utf8" %in% rownames(installed.packages()) == FALSE){ # is R6 already installed?
+  print('Installing utf8  classes package')
+  install.packages('utf8 ', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package 
+}
+library(utf8) # load R56 package
+
+
 
 Packages <- R6Class("Packages",
           public = list(
@@ -7,39 +22,39 @@ Packages <- R6Class("Packages",
                 self$checkAndInstallPackages()
             },
           packages = list(
-              doSnow = list(name = "doSNOW",
-                          repos = "0-Cloud",
-                          dep = TRUE
-            ),
-            lme4 = list(name = "lme4", repos = "0-Cloud", dep = TRUE),
-            lme4 = list(name = "timevis", repos = "0-Cloud", dep = TRUE),
-            future = list(name = "future", repos = "0-Cloud", dep = TRUE),
-            svglite = list(name = "svglite", repos = "0-Cloud", dep = TRUE),
-            ggplot2 = list(name = "ggplot2", repos = "0-Cloud", dep = TRUE),
-            flextable = list(name = "flextable", repos = "0-Cloud", dep = TRUE),
-            officer = list(name = "officer", repos = "0-Cloud", dep = TRUE),
-            systemfonts = list(name = "systemfonts",
-            repos = "0-Cloud", dep = TRUE),
+            lme4 = list(name = "lme4", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            lme4 = list(name = "extrafont", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            svglite = list(name = "svglite", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            ggplot2 = list(name = "ggplot2", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            systemfonts = list(name = "systemfonts", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             INLA = list(name = "INLA",
                         repos = c(getOption("repos"),
                             INLA = "https://inla.r-inla-download.org/R/stable"),
                         dep = TRUE)
           ),
+          # call function to install packages that are not currently on system
           checkAndInstallPackages = function() {
-            for (index in 1:length(self$packages)) {
-                package <- self$packages[[index]]
-                if (package$name %in% rownames(installed.packages()) == FALSE) {
+            for (index in 1:length(self$packages)) { # loop for each packages 
+                package <- self$packages[[index]] # get the package from class
+                if (package$name %in% rownames(installed.packages()) == FALSE) { # isInstalled?
+                  # install package 
                     install.packages(package$name,
                                       repos = package$repos,
                                       dep = package$dep)
-                    print(paste("install package: ", package$name, sep = ""))
+                    print(paste("install package: ",
+                    package$name,
+                    sep = "")
+                    )
+                    utf8_print("\U0001f680")
                 } else {
+                  # package is already installed 
                     print(
-                      paste("No worries, you allready has package:",
+                      paste("No worries, you allready has package: ",
                         package$name,
                         sep = ""
                       )
                     )
+                  utf8_print("\U0001f680")
                 }
             }
           }
@@ -48,3 +63,4 @@ Packages <- R6Class("Packages",
 
 
 Packages$new()
+
