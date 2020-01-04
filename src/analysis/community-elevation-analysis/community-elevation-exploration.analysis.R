@@ -29,8 +29,8 @@ matSp <- as.matrix(
 
 matSp[is.na(matSp)] <- 0
 ### How many of the speceis occur at each of the top brackets 
-sp_data <- read.csv('./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv')
-species_short <- SP <- c("Dry","Pmal","Ptom","Sacu","Sbec","Sfal","Sgib","Slep","Smac","Smec","Spar","Spau","Ssem","Ssmi","Swal","Sxan")
+sp_data <- read.csv('./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv') # load species list
+species_short <- as.character(sp_data$sp) 
 #sp_data$sp # get species shorthand name 
 length(which(matSp[12, species_short] != 0)) # at high elevations
 length(which(matSp[1, species_short] != 0)) # at the lowest elevation 

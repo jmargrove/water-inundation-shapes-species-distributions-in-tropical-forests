@@ -21,6 +21,9 @@ Packages <- R6Class("Packages",
             },
           packages = list(
             lme4 = list(name = "lme4", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            arm = list(name = "arm", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            gtable = list(name = "gtable", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            grid = list(name = "grid", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             vegan = list(name = "vegan", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             raster = list(name = "raster", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             Hmisc = list(name = "Hmisc", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
@@ -50,7 +53,7 @@ Packages <- R6Class("Packages",
                 } else {
                   # package is already installed 
                     print(
-                      paste("No worries, you allready has package: ",
+                      paste("No worries, you already have this package: ",
                         package$name,
                         sep = ""
                       )

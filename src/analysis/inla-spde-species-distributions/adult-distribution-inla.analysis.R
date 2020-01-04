@@ -10,15 +10,16 @@ library(doSNOW)
 
 # load the dataframe the dataframe dataframe called data 
 source('./src/data/inla-spde-species-distributions/plot-occurance.dataframe.R')
+data <- occurance_data() # creates the occurance dataframe 
 str(data) # the dataframe 
 # coords and the mesh 
-coords <- data[,c('longitude', 'latitude')]
+coords <- data[,c('longitude', 'latitude')] # X Y coordinates of the plots 
 
 m1 <- inla.mesh.2d(coords, max.edge = c(200, 500), 
                    cutoff =100, 
                    offset=c(200,400))
 
-spde <- inla.spde2.matern(m1, alpha=2) # spde
+spde <- inla.spde2.matern(m1, alpha = 2) # spde
 #Making the data stack, only for modeling the spatial effect
 A <- inla.spde.make.A(m1, loc=as.matrix(coords))
 
@@ -69,11 +70,13 @@ spc5<- inla(occ ~ 0 + int + elev + I(elev^2) + FocSp + FocSp:elev + FocSp:I(elev
             num.threads = 16, control.compute=list(cpo=TRUE))
 
 # Check the cpo values 
-cpo1 <- sum(log(spc1$cpo$cpo))*-2
-cpo2 <- sum(log(spc2$cpo$cpo))*-2
-cpo3 <- sum(log(spc3$cpo$cpo))*-2
-cpo4 <- sum(log(spc4$cpo$cpo))*-2
-cpo5 <- sum(log(spc5$cpo$cpo))*-2
+cpo1 <- sum(log(spc1$cpo$cpo)) * -2
+cpo2 <- sum(log(spc2$cpo$cpo)) * -2
+cpo3 <- sum(log(spc3$cpo$cpo)) * -2
+cpo4 <- sum(log(spc4$cpo$cpo)) * -2
+cpo5 <- sum(log(spc5$cpo$cpo)) * -2
+
+# stop the cluster 
 stopCluster(nclust)
 
 # extract the fixed effects from the model spc3 - the best model for the data 
@@ -108,6 +111,7 @@ spc3$summary.fixed$mean
 # one sample
 require(INLA)
 require(foreach)
+
 spc3<- inla(occ ~ 0 + int + elev + I(elev^2) + FocSp + FocSp:elev +
                 f(spatial.feild, model=spde, replicate=spatial.feild.repl),
             family="binomial",  data=inla.stack.data(stk), control.predictor=list(A=inla.stack.A(stk)),
