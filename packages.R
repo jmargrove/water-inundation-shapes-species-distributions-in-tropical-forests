@@ -21,6 +21,8 @@ Packages <- R6Class("Packages",
             },
           packages = list(
             lme4 = list(name = "lme4", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            nlme = list(name = "nlme", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            quantreg = list(name = "quantreg", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             arm = list(name = "arm", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             gtable = list(name = "gtable", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             grid = list(name = "grid", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
