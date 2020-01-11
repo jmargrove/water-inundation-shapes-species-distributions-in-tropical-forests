@@ -48,6 +48,25 @@
   }
   
   
+  # calculating the gls coef cis with bootstrap
+  # Bootstrapping the coefs for confidence intervals 
+  pred_coef <- data.frame(coef = names(coef(model2)), 
+                          value = as.vector(coef(model2)))
+  
+  bootstrap_file_coefs <- paste(bootstrap_file_gls, "gls-coef-wood-density-elevation-distribution.csv", sep = "")
+  if(file.exists(bootstrap_file_coefs)){
+    CI_coefs <- read.csv(bootstrap_file_coefs)
+    pred_coef$CI025 <- unlist(CI_coefs[1, ], use.names = FALSE)
+    pred_coef$CI975 <- unlist(CI_coefs[2, ] , use.names = FALSE)
+  } else {
+    source("./src/utils/booter.R")
+    CI_coef <- booter(model2, data = data, preds = qr_pred, quantreg = TRUE, n = 5000, coef = TRUE)
+    pred_coef$CI025 <- CI_coef[1, ]
+    pred_coef$CI975 <- CI_coef[2, ]
+    write.csv(CI_coef, file = bootstrap_file_coefs, row.names = F)
+  }
+  
+  
   return(list(preds = gls_preds, 
               model = model2)
          )
