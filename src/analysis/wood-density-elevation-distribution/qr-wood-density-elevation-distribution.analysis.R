@@ -17,14 +17,14 @@
   bootstrap_file_lines <- paste(bootstrap_file, "qr-ci-wood-density-elevation-distribution.csv", sep = "")
   if(file.exists(bootstrap_file_lines)){
     CI <- read.csv(bootstrap_file_lines)
-    qr_preds$CI025 <- CI[1, ]
-    qr_preds$CI975 <- CI[2, ]
+    qr_preds$CI025 <- unlist(CI[1, ], use.names = FALSE)
+    qr_preds$CI975 <- unlist(CI[2, ], use.names = FALSE)
   } else {
     source("./src/utils/booter.R")
     CI <- booter(quant_model, data = data, preds = qr_pred, quantreg = TRUE, n = 5000)
     write.csv(CI, file = bootstrap_file_lines, row.names = F)
-    qr_preds$CI025 <- CI[1, ]
-    qr_preds$CI975 <- CI[2, ]
+    qr_preds$CI025 <- CI[1, ] # assign the cis 
+    qr_preds$CI975 <- CI[2, ] 
   }
   
   # Bootstrapping the coefs for confidence intervals 
@@ -35,7 +35,8 @@
   bootstrap_file_coefs <- paste(bootstrap_file, "qr-coef-wood-density-elevation-distribution.csv", sep = "")
   if(file.exists(bootstrap_file_coefs)){
     CI_coefs <- read.csv(bootstrap_file_coefs)
-      
+    pred_coef$CI025 <- unlist(CI_coefs[1, ], use.names = FALSE)
+    pred_coef$CI975 <- unlist(CI_coefs[2, ] , use.names = FALSE)
   } else {
     source("./src/utils/booter.R")
     CI_coef <- booter(quant_model, data = data, preds = qr_pred, quantreg = TRUE, n = 5000, coef = TRUE)
@@ -45,6 +46,7 @@
   }
   
   model_res <- list(preds = qr_preds, 
+                    coefs = pred_coef, 
                    model = quant_model)
   return(model_res)
 })()

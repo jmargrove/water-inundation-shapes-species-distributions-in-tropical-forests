@@ -24,15 +24,29 @@
   
   # bootstrap the model
   # n = 5000  #number of bootstrapping samples, if n is not defined 10 rounds will be done. See 'ternary' below
-  n = F
-  source("./src/utils/booter.R")
-  CI <- booter(model2,
-               data = data,
-               preds = gls_preds,
-               n = if(n) n else 10)
+  # Bootstrapping the predicitons for confidence intervals around taus
+  bootstrap_file_gls = "./src/analysis/wood-density-elevation-distribution/bootstrapped/"
+  bootstrap_file_gls_lines <- paste(bootstrap_file_gls, "gls-ci-wood-density-elevation-distribution.csv", sep = "")
   
-  gls_preds$CI025 <- CI[1,]
-  gls_preds$CI975 <- CI[2,]
+  if(file.exists(bootstrap_file_gls_lines)){
+    
+    CI <- read.csv(bootstrap_file_gls_lines)
+    gls_preds$CI025 <- unlist(CI[1, ], use.names = FALSE)
+    gls_preds$CI975 <- unlist(CI[2, ], use.names = FALSE)
+    
+  } else {
+    
+    source("./src/utils/booter.R")
+    CI <- booter(model2,
+                 data = data,
+                 preds = gls_preds,
+                 n = 5000)
+    write.csv(CI, file = bootstrap_file_gls_lines, row.names = F)
+    gls_preds$CI025 <- CI[1, ] # assign the cis 
+    gls_preds$CI975 <- CI[2, ] 
+    
+  }
+  
   
   return(list(preds = gls_preds, 
               model = model2)

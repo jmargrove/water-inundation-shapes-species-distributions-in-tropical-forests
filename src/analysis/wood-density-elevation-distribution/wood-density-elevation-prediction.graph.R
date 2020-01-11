@@ -1,15 +1,18 @@
 # Combining gls result and quantile regression into one figure 
 # Clear working space 
 rm(list = ls())
+source("./src/utils/import.R")
 
-data <- source("./src/data/wood-density-elevation-distribution/convert-density-points-matrix.dataframe.R")$value
+dir <- './src/analysis/wood-density-elevation-distribution/'
+
+data <- import("./src/data/wood-density-elevation-distribution/convert-density-points-matrix.dataframe.R")
 # model the quantile regression, with predictions
-qr_analysis <- source('./src/analysis/wood-density-elevation-distribution/qr-wood-density-elevation-distribution.analysis.R')$value
+qr_analysis <- import(paste(dir, 'qr-wood-density-elevation-distribution.analysis.R', sep = ''))
 # gls analysis with predictions 
-gls_analysis <- source('./src/analysis/wood-density-elevation-distribution/gls-wood-density-elevation-distribution.analysis.R')$value
+gls_analysis <- import(paste(dir, 'gls-wood-density-elevation-distribution.analysis.R', sep = ''))
 
 # colors 
-cols <- c("#8CB369", "#F4E285", "#4C8577","#F4A259", "#BC4B51")
+theme <- import('./src/utils/theme.R')
 
 # ggplot of the results 
 p1 <- ggplot(gls_analysis$preds, aes(x = density_mean, y = elevation_mean)) + 
@@ -20,13 +23,14 @@ p1 <- ggplot(gls_analysis$preds, aes(x = density_mean, y = elevation_mean)) +
   ylab("Elevation (m asl)") + 
   xlab(bquote("Adult wood density g" ~cm^-3 )) +
   theme(legend.position = "top") + 
-  scale_fill_manual(values = cols) + 
+  scale_fill_manual(values = theme$selectColorPalette()) + 
   xlim(NA, 0.62) +
   ylim(NA, 140) +
   theme(text = element_text(size=20)) + 
   geom_line(data = qr_analysis$preds[qr_analysis$preds$Quantile != '0.5',], # except the median 
-            aes(x = density_mean, y = elevation_mean, color = Quantile), linetype = 2, size = 1.5) + 
-  scale_color_manual(values = cols)  # color the lines
-
+            aes(x = density_mean, y = elevation_mean, color = Quantile), linetype = 1, size = 1.5) + 
+  scale_color_manual(values = theme$selectColorPalette())  # color the lines
 
 p1
+
+
