@@ -10,7 +10,7 @@ library(R6) # load R56 package
 
 if ("utf8" %in% rownames(installed.packages()) == FALSE){ # is R6 already installed?
   print('Installing utf8  classes package')
-  install.packages('utf8 ', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package 
+  install.packages('utf8 ', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package
 }
 library(utf8) # load R56 package
 
@@ -21,6 +21,9 @@ Packages <- R6Class("Packages",
             },
           packages = list(
             lme4 = list(name = "lme4", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            MuMIn = list(name = "MuMIn", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            nlme = list(name = "nlme", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            quantreg = list(name = "quantreg", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             arm = list(name = "arm", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             gtable = list(name = "gtable", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             grid = list(name = "grid", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
