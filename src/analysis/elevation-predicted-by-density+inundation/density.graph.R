@@ -13,8 +13,6 @@ partial_lines_data <- data.frame(x = rep(result$data$density, 2),
 var_res_rr <- car::Anova(result$model)[,1]
 rr_explaied_variation <- paste('ANOVA:', round(var_res_rr / sum(var_res_rr) * 100, 1)[2], "%")
 
-
-
 # jittering the species names 
 vj <- rep(2.5, 16)
 vj[which(riskratio$sp == 'Spar')] <- -5
@@ -37,8 +35,6 @@ hj[which(riskratio$sp == 'Sfal')] <- -0.02
 hj[which(riskratio$sp == 'Dry')] <- 0.02
 hj[which(riskratio$sp == 'Ssem')] <- -0.025
 hj[which(riskratio$sp == 'Ptom')] <- -0.025
-
-
 
 # plotting the data 
 p1_wooddensity <- ggplot(result$preds_density, aes(x = dden, y = elev)) + 
