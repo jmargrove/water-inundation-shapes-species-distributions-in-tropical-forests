@@ -7,9 +7,6 @@ booted_seedling_mortality <- read.table('./src/analysis/sepilok-field-experiment
 # import model
 mort_analysis <- source('./src/analysis/sepilok-field-experiment/field-exp-mortality.analysis.R')$value 
 
-
-# prediction data.frame 
-source('./analysis/seedling_mortality_analysis/data/prediction_species_inundation_interaction.R')
 # colors 
 source('./colors.R')
 # prediction data.frame 

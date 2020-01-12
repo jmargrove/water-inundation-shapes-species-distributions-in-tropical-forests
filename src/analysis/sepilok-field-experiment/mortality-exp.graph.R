@@ -1,53 +1,40 @@
-
-
-# Import model 
-require(ggplot2)
+# Graphic of the interaction between species and mortality 
+rm(list = ls())
+# Import theme for graphing 
+library(ggplot2)
+theme <- source('./src/utils/theme.R')$value
+# Import model & predictions 
 mort_analysis <- source('./src/analysis/sepilok-field-experiment/field-exp-mortality.analysis.R')$value 
-# Import data 
-boots <- read.table("./data/FLoodIntSp.txt", header = TRUE)
+# Import the elevation data for ordering 
 pelev_data <- read.csv("./src/analysis/inla-spde-species-distributions/predictions/occurance-probabilities.dataframe.csv")
+# import the wood density data for partitioning
 plot_density_data <- read.csv("./src/data/sepilok-plot/sepilok-adult-wood-density.table.csv", header = TRUE)
+# import species data 
 species_data <- read.csv('./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv')
 exp_density_data <- plot_density_data[plot_density_data$sp %in% as.character(species_data$sp), ]
 
-data <- s3@frame
-
-# Calculate confidence intervals 
-CI <- apply(boots, 1, quantile, c(0.025, 0.975))
-
 # Create high and low wood density factors 
-dden_data$fden <- cut(dden_data$dden_adult, 
-                      breaks = c(0, mean(dden_data$dden_adult), 1), 
+exp_density_data$fden <- cut(exp_density_data$density, 
+                      breaks = c(0, mean(exp_density_data$density), 1), 
                       labels = c("Low wood density", "High wood density"))
 
-# Predictions for the graph
-preds <- expand.grid(dia = mean(exp(data$`log(dia)`)), 
-                     ztopo = 0, 
-                     sp = levels(data$sp), 
-                     flood = levels(data$flood), 
-                     f.time = as.factor(3))
-
-preds$p <- predict(s3, preds, type = "response", re.form = ~0)
-preds$CI025 <- CI[1,] 
-preds$CI975 <- CI[2,]
-preds$fden <- rep(dden_data$fden, times = 2)
-preds$pe <- rep(pelev_data$pe, times = 2)
-preds$fden <- relevel(preds$fden, ref = "High wood density")
-colnames(preds)[4] <- "Water inundation"
-levels(preds$`Water inundation`) <- c("Dry", "Wet")
-
-cols <- c("#8CB369", "#F4E285", "#4C8577","#F4A259", "#BC4B51")
+mort_analysis$preds$fden <- rep(exp_density_data$fden, times = 2) # add the density factors 
+mort_analysis$preds$occurance_probability <- rep(pelev_data$occurance_probability, times = 2) # add the occurance probabilities 
+mort_analysis$preds$fden <- relevel(mort_analysis$preds$fden, ref = "High wood density") # relevel the factor labels :)
+colnames(mort_analysis$preds)[which(colnames(mort_analysis$preds) == 'flood')] <- "Water inundation" # flood -> water inundation
+levels(mort_analysis$preds$`Water inundation`) <- c("Dry", "Wet") # relabel high low to wet and dry 
 
 # Graphing the results 
-p1 <- ggplot(preds, aes(x = reorder(sp, pe), y = p, group = `Water inundation`)) + 
+p1 <- ggplot(mort_analysis$preds, aes(x = reorder(sp, occurance_probability), y = mortality, group = `Water inundation`)) + 
   facet_grid(~fden, space = "free", scale = "free") + 
   geom_errorbar(aes(ymin = CI025, ymax=CI975), width = 0.3, alpha = 0.2) + 
   theme_classic() + 
   geom_point(size = 4) + 
   geom_point(size = 3, aes(color = `Water inundation`)) + 
-  theme(legend.position = c(0.25, 0.8)) + 
+  theme(legend.position = c(0.35, 0.8)) + 
   xlab("Species") + 
   ylab("p(Mortality)") + 
   theme(axis.text.x = element_text(face = "italic", angle = 45, vjust = .7)) + 
-  scale_color_manual(values = c("light grey", cols[c(5)]))
+  scale_color_manual(values = c(theme$selectBlack(), theme$selectRed()))
+
 p1

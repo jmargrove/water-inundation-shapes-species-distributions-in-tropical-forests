@@ -14,7 +14,11 @@
     
     preds$mortality <- predict(r3, preds, type = "response", re.form = NA)
     
-    
+    # boot strapped data 
+    boots <- read.csv('./src/analysis/sepilok-field-experiment/predictions/mortality-interaction.bootstrapped.csv')
+    CI <- apply(boots, 1, quantile, c(0.025, 0.975))
+    preds$CI025 <- CI[1,] 
+    preds$CI975 <- CI[2,]
     return(list(model = r3, preds = preds))
   } else {
   # function to standardise variables 
