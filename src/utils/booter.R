@@ -11,7 +11,7 @@
 #'@dependancies foreach 
 #'@return bootstrapped predictions or confidence intervals for lm or quantreg 
 #'
-require(foreach)
+library(foreach)
 
 booter <- function(
   model, data, preds, n, coef = FALSE,  CI = "95%", quantreg = FALSE, MEM = FALSE) {
