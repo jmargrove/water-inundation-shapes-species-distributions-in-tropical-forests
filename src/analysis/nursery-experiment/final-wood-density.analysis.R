@@ -11,8 +11,8 @@ rm(list = ls())
   #' is prediced by the treatment and initial diameter + random effects 
   #' of mother and block REML false for model comparison 
   
-  model <-lmer(final_wood_density ~ log(treatment + 1) * sp 
-                 initial_diameter + sp +
+  model <-lmer(final_wood_density ~ treatment +
+                 initial_diameter +
                  (1 | mother) + 
                  (1 | block), 
                data = exp_data, 
