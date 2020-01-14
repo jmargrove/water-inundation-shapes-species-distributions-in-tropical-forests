@@ -4,43 +4,9 @@
 rm(list = ls())
 (function(){
   #' load packages 
-  library(ggplot2)
   library(lme4)
   # load the experiment data
   exp_data <- read.csv("./src/data/nursery-experiment/wood-density-final.raw.csv")
-  
-  # exploration of the data 
-  str(exp_data)
-  #' plot final wood density predicted by the treatment
-  ggplot(exp_data, aes(x = treatment, y = final_wood_density)) + 
-    geom_point() + 
-    stat_smooth(method = lm)
-  
-  #' plot final wood density predicted by log(treatment + 1)
-  ggplot(exp_data, aes(x = log(treatment + 1), y = final_wood_density)) + 
-    geom_point() + 
-    stat_smooth(method = lm)
-  
-  #' plot final wood density prediced by the initial diameter 
-  ggplot(exp_data, aes(x = initial_diameter, y = final_wood_density)) + 
-    geom_point() + 
-    stat_smooth(method = lm)
-  
-  #' plot the wood density vs species 
-  ggplot(exp_data, aes(x = sp, y = final_wood_density)) + 
-    geom_point() +
-    geom_boxplot(alpha = 0.5)
-  
-  #' plot the wood density vs mother
-  ggplot(exp_data, aes(x = mother, y = final_wood_density)) + 
-    geom_point() +
-    geom_boxplot(alpha = 0.5)
-  
-  #' plot the wood density vs block 
-  ggplot(exp_data, aes(x = block, y = final_wood_density)) + 
-    geom_point() +
-    geom_boxplot(alpha = 0.5)
-  
   #' Run the model testing the hypothesis that the final wood density
   #' is prediced by the treatment and initial diameter + random effects 
   #' of mother and block REML false for model comparison 
@@ -96,7 +62,7 @@ rm(list = ls())
     write.csv(CI, file = boots_file, row.names = FALSE)
   }
   
-  coef_boots_file <- paste(boots_dir, 'coef-ci-delta-density.bootstrapped.R')
+  coef_boots_file <- paste(boots_dir, 'coef-ci-delta-density.bootstrapped.R', sep = '')
   coefs <- as.data.frame(summary(final_model)$coef)
   if(file.exists(coef_boots_file)){
     CI_coefs <- read.csv(coef_boots_file) # load the CIs for the coefs
@@ -109,10 +75,9 @@ rm(list = ls())
     CI_coefs <- booter(model = final_model, data = exp_data, preds = prediction_dataframe, n = 5000,  MEM = TRUE, coef = TRUE)
     coefs$CI025 <- unlist(CI_coefs[1, ])
     coefs$CI975 <- unlist(CI_coefs[2, ])
-    write.csv(CI_coefs, file = boots_file, row.names = FALSE)
+    write.csv(CI_coefs, file = coef_boots_file, row.names = FALSE)
   }
   
   # return the model, preds, with confidence intervals and coefs all boostrapped
   return(list(mode = final_model, preds_treat = prediction_dataframe, coef = coef))
-
 })()
