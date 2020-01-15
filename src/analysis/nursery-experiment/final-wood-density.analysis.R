@@ -1,7 +1,5 @@
 #' Analysis of the change in wood density
 
-# clear workspace 
-rm(list = ls())
 (function(){
   #' load packages 
   library(lme4)

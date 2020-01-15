@@ -1,5 +1,4 @@
 (function(){
-  rm(list = ls())
   # Start with a module... graphic of the change in wood density 
   analysis <- source("./src/analysis/nursery-experiment/final-wood-density.analysis.R")$value
   themed <- source('./src/utils/theme.R')$value
@@ -12,11 +11,11 @@
   pred_line <- geom_line()
   
   # raw data points as box plot 
-  raw_points <- geom_boxplot(data = analysis$mode@frame, 
-                             aes(x = treatment, 
-                                 y = final_wood_density),
-                             color = themed$selectBlue(), 
-                             width = 0.5)
+  raw_points <- geom_point(data = analysis$mode@frame, 
+                             aes(x = exp(`log(treatment + 1)`) - 1, 
+                                 y = final_wood_density, 
+                                 group = factor(`log(treatment + 1)`)),
+                             color = themed$selectBlue(), width = 1)
   
   # confidence intervals 95% n = 5000
   conf_int <-   geom_ribbon(aes(ymin = CI025, ymax = CI975), fill = themed$selectMedGrey()) 
@@ -26,13 +25,13 @@
   
   # baseline for the density
   base_density_line <- geom_abline(slope = 0, 
-                           intercept = mean(base_density_data, na.rm = T), 
+                           intercept = mean(base_density_data$wood_density, na.rm = T), 
                            linetype = 2, 
                            color = themed$selectRed())
   
   # compose the plot
   p1 <- ggplot(data = analysis$preds_treat, aes(x = treatment, y = final_wood_density)) + 
-    # raw_points + 
+    raw_points +
     conf_int + 
     pred_line + 
     base_density_line +
