@@ -1,7 +1,6 @@
 # Does wood density and inundation predict elevation 
-rm(list = ls())
+
 (function(){
-  
   makeDataframe <- function(){
     # Import model & predictions 
     mort_analysis <- source('./src/analysis/sepilok-field-experiment/field-exp-mortality.analysis.R')$value 
