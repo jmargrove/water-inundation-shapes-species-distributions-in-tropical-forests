@@ -1,5 +1,4 @@
 # combining the result figure 3 
-
 loadPlots <- function(){
   panel_a <- source('./src/analysis/elevation-predicted-by-density+inundation/riskratio.graph.R')$value 
   panel_b <- source('./src/analysis/elevation-predicted-by-density+inundation/density.graph.R')$value 
@@ -8,9 +7,17 @@ loadPlots <- function(){
   return(list(a = panel_a, b = panel_b, c = NULL, d = panel_d))
 }
 
-plots <- loadPlots()
 
-plots$a$plot
-plots$b$plot
-plots$c$plot
-plots$d$plot
+
+plots <- loadPlots()
+library(ggpubr)
+b <- ggarrange(
+  plots$a$plot,
+  plots$b,
+  # plots$c$plot
+  plots$d$plot,
+  labels = c('(A)', '(B)', '(C)', '(D)')
+  
+)
+
+ggsave(b, file ='./src/figures/results-combind.fig3.png')

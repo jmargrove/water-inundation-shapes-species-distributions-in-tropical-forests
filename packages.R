@@ -20,6 +20,7 @@ Packages <- R6Class("Packages",
                 self$checkAndInstallPackages()
             },
           packages = list(
+            ggpubr = list(name = "ggpubr", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             lme4 = list(name = "lme4", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             foreach = list(name = "foreach", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             MuMIn = list(name = "MuMIn", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
