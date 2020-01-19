@@ -3,7 +3,7 @@
     # load the analysis of the data 
     analysis <- source("./src/analysis/ontogenic-wood-density-change/ontogenic-density.analysis.R")$value
 
-    # load ggplot 
+    # load gg plot 
     library(draw)
 
     # Set drawing settings
@@ -11,7 +11,7 @@
 
     # Create a new drawing page
     drawPlot <- function() {
-        # nre-do later today with ggplot 2
+        # re-do later today with gg plot 2
         width <- 120
         height <- width / 3 * 2
         drawSettings(pageWidth = width,

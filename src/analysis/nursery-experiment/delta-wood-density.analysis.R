@@ -1,53 +1,59 @@
 
 (function() {
     rm(list = ls())
-    #" load packages 
+    # Load packages 
     library(lme4)
-    # load the experiment data
-    exp_data <- read.csv("./src/data/nursery-experiment/wood-density-final.raw.csv")
+    # Load the experiment data
+    nur_exp_dir <- "./src/data/nursery-experiment/"
+    exp_data_file <- paste(nur_exp_dir, "wood-density-final.raw.csv", sep = "")
+    exp_data <- read.csv(exp_data_file)
     str(exp_data)
-    base_data <- read.csv("./src/data/nursery-experiment/wood-density-nursery-base.raw.csv")
+    base_data_file <- paste(nur_exp_dir, "wood-density-nursery-base.raw.csv", sep = "")
+    base_data <- read.csv(base_data_file)
     str(base_data)
 
-    # calculate the mean base wood density per species 
+    # Calculate the mean base wood density per species
     mean_base_density_data <- with(base_data, aggregate(wood_density, list(sp = sp), mean))
     names(mean_base_density_data)[2] <- "mean_density"
     base_density <- c()
+    
     for (i in 1:length(mean_base_density_data$sp)) {
-        base_density[which(exp_data$sp == mean_base_density_data$sp[i])] <- mean_base_density_data$mean_density[i]
+        index <- which(exp_data$sp == mean_base_density_data$sp[i]) 
+        base_density[index] <- mean_base_density_data$mean_density[i]
     }
-    # assign the base density to the experiments dataframe
+    # Assign the base density to the experiments data frame
     exp_data$base_density <- base_density
     # calculate the delta density 
     exp_data$delta_density <- exp_data$final_wood_density - exp_data$base_density
-    # great what does it look like...
+    # Great! What does it look like?
     str(exp_data)
 
-    # inital model 
+    # Initiall 
     model <- lmer(delta_density ~ log(treatment + 1) *
                  initial_diameter +
                  (1 | sp:mother) +
                  (1 | block),
                data = exp_data,
-               control = lmerControl(optimizer = "bobyqa"),
+               control = lmerControl(optimizer = "bobyqa"), # Use this optimizer 
                REML = FALSE)
+
     summary(model)
     model2 <- update(model, . ~ . - treatment + log(treatment + 1))
     summary(model2)
     AIC(model)
-    AIC(model2) # model 2 is lower just like the final density analysis 
+    AIC(model2) # Model 2 is lower just like the final density analysis 
 
-    #" model validation of model2 
+    # model validation of model2 
     pearson_resid <- resid(model2, type = "pearson")
     fitted_values <- fitted(model2)
-    plot(fitted_values, pearson_resid) # one outlier, i think the anlaysis is ok 
+    plot(fitted_values, pearson_resid) # one outlier, i think the analysis is ok 
 
     summary(model2)
-    # prediction dataframe 
-    prediction_dataframe = expand.grid(
-    treatment = seq(0, 21, length = 100),
-    initial_diameter = mean(exp_data$initial_diameter)
-  )
+    # Prediction data frame 
+    prediction_dataframe <- expand.grid(
+        treatment = seq(0, 21, length 
+          
+        )
 
     # final wood density prediction.
     prediction_dataframe$delta_density <- predict(
@@ -74,21 +80,19 @@
     coef_boots_file <- paste(boots_dir, "coef-ci-delta-density.bootstrapped.R", sep = "")
     coefs <- as.data.frame(summary(model2)$coef)
     if (file.exists(coef_boots_file)) {
-        CI_coefs <- read.csv(coef_boots_file) # load the CIs for the coefs
-        coefs$CI025 <- unlist(CI_coefs[1,]) # asign to preds 
+        CI_coefs <- read.csv(coef_boots_file) # load the CIs for the coefficients
+        coefs$CI025 <- unlist(CI_coefs[1,]) # assign to predictions
         coefs$CI975 <- unlist(CI_coefs[2,])
 
     } else {
         source("./src/utils/booter.R")
-        # calculate the CIs for the coefs if there is no file present
+        # Calculate the CIs for the coefficients if there is no file present
         CI_coefs <- booter(model = model2, data = exp_data, preds = prediction_dataframe, n = 5000, MEM = TRUE, coef = TRUE)
         coefs$CI025 <- unlist(CI_coefs[1,])
-        coefs$CI975 <- unlist(CI_coefs[2,])
+        coefs$CI975 <- unlist(CI_coefs[2 ,])
+        # Write to file 
         write.csv(CI_coefs, file = coef_boots_file, row.names = FALSE)
     }
 
-    # return the model, preds, with confidence intervals and coefs all boostrapped
-    return(list(mode = model2, preds_treat = prediction_dataframe, coef = coef))
-
-
+    # Return the model, predictions, with confidence intervals and coefficients boot strapp ed
 })()

@@ -4,32 +4,32 @@
     themed <- source("./src/utils/theme.R")$value
     str(analysis$preds_treat)
 
-    # loading ggplot2 
+    # Loading ggplot2 
     library(ggplot2)
 
-    # model prediction
+    # Model prediction
     pred_line <- geom_line()
 
-    # raw data points as box plot 
+    # Raw data points as box plot 
     raw_points <- geom_point(data = analysis$mode@frame,
                              aes(x = exp(`log(treatment + 1)`) - 1,
                                  y = final_wood_density,
                                  group = factor(`log(treatment + 1)`)),
                              color = themed$selectBlue(), width = 1)
 
-    # confidence intervals 95% n = 5000
+    # Confidence intervals 95% n = 5000
     conf_int <- geom_ribbon(aes(ymin = CI025, ymax = CI975), fill = themed$selectMedGrey())
 
-    # mean species line 
+    # Mean species line 
     base_density_data <- read.csv("./src/data/nursery-experiment/wood-density-nursery-base.raw.csv")
 
-    # baseline for the density
+    # Baseline for the density
     base_density_line <- geom_abline(slope = 0,
                            intercept = mean(base_density_data$wood_density, na.rm = T),
                            linetype = 2,
                            color = themed$selectRed())
 
-    # compose the plot
+    # Compose the plot
     p1 <- ggplot(data = analysis$preds_treat, aes(x = treatment, y = final_wood_density)) +
     raw_points +
     conf_int +
@@ -39,6 +39,6 @@
     theme_bw()
 
     p1
-    # return the plot
+    # Return the plot
     return(list(plot = p1, analysis = analysis))
 })()

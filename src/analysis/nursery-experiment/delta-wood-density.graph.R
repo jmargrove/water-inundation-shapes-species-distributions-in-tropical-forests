@@ -1,5 +1,4 @@
-
-
+# Graph of the change in wood density of the species during nursery experiment 
 (function() {
     analysis <- source("./src/analysis/nursery-experiment/delta-wood-density.analysis.R")$value
     themed <- source("./src/utils/theme.R")$value
@@ -22,6 +21,11 @@
     theme_bw()
 
     p1
-    return(p1)
+    return(
+        list(
+            plot = p1,
+            analysis = analysis
+        )
+    )
 })()
 
