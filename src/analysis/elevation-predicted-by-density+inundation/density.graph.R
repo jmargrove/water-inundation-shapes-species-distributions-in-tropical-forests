@@ -46,10 +46,10 @@
     geom_point(data = analysis$data, aes(y = partials_density, x = density),
                color = themed$selectBlack(),
                pch = 21,
-               fill = themed$selectLightGrey(), size = 3) +
+               fill = themed$selectLightGrey()) +
     theme_bw() +
     geom_point(data = analysis$data, aes(y = elevation, x = density), color = themed$selectRed()) +
-    geom_text(aes(x = 0.4, y = 120, label = density_explaied_variation), size = 5) +
+    geom_text(aes(x = 0.4, y = 120, label = density_explaied_variation)) +
     ylab("E(elevation) m asl") +
     xlab(expression("Adult wood density" ~ g ~ cm ^ -3)) +
     stat_smooth(data = analysis$data, aes(x = density, y = elevation),
@@ -57,11 +57,10 @@
                 linetype = 2, size = 0.5) +
     theme(text = element_text(size = 20)) +
     geom_text(data = analysis$data, aes(label = sp),
-              size = 5,
               nudge_y = vj,
               nudge_x = hj,
               fontface = "italic")
 
     # returning the wood density graph
-    return(p1_wooddensity)
+    return(list(plot = p1_wooddensity, analysis = analysis))
 })()
