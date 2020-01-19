@@ -1,7 +1,7 @@
 # graphing
 (function(){
   # load the analysis of the data 
-  analysis <- source('./src/analysis/ontogenic-wood-density-change/ontogenic-density.analysis.R')$value
+  analysis <- source("./src/analysis/ontogenic-wood-density-change/ontogenic-density.analysis.R")$value
   
   # load ggplot 
   library(draw)
@@ -11,15 +11,20 @@
   
   # Create a new drawing page
   drawPlot <- function(){
-    drawSettings(pageWidth = 7, pageHeight = 5, units = "inches")
+    width <-  120
+    height <- width / 3 * 2
+    drawSettings(pageWidth = width, 
+                 pageHeight = height, 
+                 units = "px")
     drawPage() 
-    maxx <- 5
+    ?drawSettings
+    maxx <- width - 0.5
     minx <- 0.5
-    midx <- (maxx - minx) / 2 + minx
+    midx <- width / 2
     
-    maxy <- 3.5 
+    maxy <- height - 0.5
     miny <- 0.5
-    midy <-  (maxy - miny) / 2 + miny
+    midy <-  height / 2
     drawLine(x = c(minx, maxx, midx, minx),
              y = c(maxy, maxy, miny, maxy))
     
@@ -27,14 +32,21 @@
     drawText(x = midx, y = midy, text = "r2", size = 24)
     
     # draw on corner labels 
-    drawText(x = 2.5, y = 1.9, text = "Sapling")
-    drawText(x = 1, y = 3.7, text = "Seedling")
-    drawText(x = 4, y = 3.7, text = "Adult")
+    drawText(x = midx, y = miny, text = "Sapling", size = 24)
+    drawText(x = minx, y = maxy, text = "Seedling", size = 24)
+    drawText(x = maxx, y = maxy, text = "Adult", size = 24)
     
     # Draw r squared values 
-    drawText(x = 1.5, y = 2.75, text = round(analysis$r2[2, 2], 2))
-    drawText(x = 3.5, y = 2.75, text = round(analysis$r2[3, 2], 2))
-    drawText(x = 2.5, y = 3.7, text = round(analysis$r2[1, 2], 2))
+    # seedling_sap 
+    drawText(x = (midx - minx) / 2 + minx, y = (maxy - miny) / 2 + miny, 
+             text = round(analysis$r2[2, 2], 2), 
+             size = 24)
+    
+    # adult_sap
+    drawText(x = 3.5, y = 2.75, 
+             text = round(analysis$r2[3, 2], 2), 
+             size = 24)
+    drawText(x = 2.5, y = 3.7, text = round(analysis$r2[1, 2], 2), size = 24)
   }
   
   drawPlot()  

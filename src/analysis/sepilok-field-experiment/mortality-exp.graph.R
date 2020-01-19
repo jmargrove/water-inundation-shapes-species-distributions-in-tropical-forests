@@ -2,15 +2,15 @@
 rm(list = ls())
 # Import theme for graphing 
 library(ggplot2)
-theme <- source('./src/utils/theme.R')$value
+theme <- source("./src/utils/theme.R")$value
 # Import model & predictions 
-mort_analysis <- source('./src/analysis/sepilok-field-experiment/field-exp-mortality.analysis.R')$value 
+mort_analysis <- source("./src/analysis/sepilok-field-experiment/field-exp-mortality.analysis.R")$value 
 # Import the elevation data for ordering 
 pelev_data <- read.csv("./src/analysis/inla-spde-species-distributions/predictions/occurance-probabilities.dataframe.csv")
 # import the wood density data for partitioning
 plot_density_data <- read.csv("./src/data/sepilok-plot/sepilok-adult-wood-density.table.csv", header = TRUE)
 # import species data 
-species_data <- read.csv('./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv')
+species_data <- read.csv("./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv")
 exp_density_data <- plot_density_data[plot_density_data$sp %in% as.character(species_data$sp), ]
 
 # Create high and low wood density factors 
@@ -21,7 +21,7 @@ exp_density_data$fden <- cut(exp_density_data$density,
 mort_analysis$preds$fden <- rep(exp_density_data$fden, times = 2) # add the density factors 
 mort_analysis$preds$occurance_probability <- rep(pelev_data$occurance_probability, times = 2) # add the occurance probabilities 
 mort_analysis$preds$fden <- relevel(mort_analysis$preds$fden, ref = "High wood density") # relevel the factor labels :)
-colnames(mort_analysis$preds)[which(colnames(mort_analysis$preds) == 'flood')] <- "Water inundation" # flood -> water inundation
+colnames(mort_analysis$preds)[which(colnames(mort_analysis$preds) == "flood")] <- "Water inundation" # flood -> water inundation
 levels(mort_analysis$preds$`Water inundation`) <- c("Dry", "Wet") # relabel high low to wet and dry 
 
 # Graphing the results 

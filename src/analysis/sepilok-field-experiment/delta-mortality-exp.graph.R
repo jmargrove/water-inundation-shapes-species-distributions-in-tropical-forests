@@ -1,17 +1,17 @@
 #graphing the seedling mortality data 
 rm(list = ls())
-theme <- source('./src/utils/theme.R')$value
+theme <- source("./src/utils/theme.R")$value
 # import bootstrapped data 
-boot_data <- read.table('./src/analysis/sepilok-field-experiment/predictions/delta-mortality.bootstrapped.R', header = TRUE)
+boot_data <- read.table("./src/analysis/sepilok-field-experiment/predictions/delta-mortality.bootstrapped.R", header = TRUE)
 # import model
-mort_analysis <- source('./src/analysis/sepilok-field-experiment/field-exp-mortality.analysis.R')$value 
+mort_analysis <- source("./src/analysis/sepilok-field-experiment/field-exp-mortality.analysis.R")$value 
 library(ggplot2)
 # Import the elevation data for ordering 
 pelev_data <- read.csv("./src/analysis/inla-spde-species-distributions/predictions/occurance-probabilities.dataframe.csv")
 # import the wood density data for partitioning
 plot_density_data <- read.csv("./src/data/sepilok-plot/sepilok-adult-wood-density.table.csv", header = TRUE)
 # import species data 
-species_data <- read.csv('./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv')
+species_data <- read.csv("./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv")
 exp_density_data <- plot_density_data[plot_density_data$sp %in% as.character(species_data$sp), ]
 
 pred_diff <- mort_analysis$preds[1:16,]
@@ -20,7 +20,7 @@ pred_diff$CI025 <- as.numeric(boot_data[1, 33:48])
 pred_diff$CI975 <- as.numeric(boot_data[2, 33:48])
 pred_diff$occurance_probability <- pelev_data$occurance_probability
 pred_diff$`Different from Zero` <- rep("diff", 16)
-pred_diff$`Different from Zero`[which(pred_diff$CI025 < 0)] <- 'no diff'
+pred_diff$`Different from Zero`[which(pred_diff$CI025 < 0)] <- "no diff"
 pred_diff$Wooddensity <- exp_density_data$density
 
 # plot the graph of the differences

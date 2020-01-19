@@ -1,21 +1,21 @@
-#' Seedling Mortality Model Selection and Evaluation module 
+#" Seedling Mortality Model Selection and Evaluation module 
 # Clear workspace 
 (function(){
-  data <- read.csv('./src/data/sepilok-field-experiment/seedling-survival-field-experiment.raw.csv')
+  data <- read.csv("./src/data/sepilok-field-experiment/seedling-survival-field-experiment.raw.csv")
   # file location 
-  model_file <- './src/analysis/sepilok-field-experiment/best-model.R'
+  model_file <- "./src/analysis/sepilok-field-experiment/best-model.R"
   if(file.exists(model_file)){
     load(model_file)
     preds <-  expand.grid(dia = mean(data$diameter, na.rm = T), 
                            ztopo = 0, 
-                           f.time = '3', 
+                           f.time = "3", 
                            sp = levels(data$sp),
                            flood = levels(data$flood))
     
     preds$mortality <- predict(r3, preds, type = "response", re.form = NA)
     
     # boot strapped data 
-    boots <- read.csv('./src/analysis/sepilok-field-experiment/predictions/mortality-interaction.bootstrapped.csv')
+    boots <- read.csv("./src/analysis/sepilok-field-experiment/predictions/mortality-interaction.bootstrapped.csv")
     CI <- apply(boots, 1, quantile, c(0.025, 0.975))
     preds$CI025 <- CI[1,] 
     preds$CI975 <- CI[2,]
@@ -32,9 +32,9 @@
  
   #Modeling
   #Standardize all the variables for analysis: micro_topography, light, sand, 
-  data$Smicro_topography <- stand(data = data, var = 'micro_topography')
-  data$Slight <- stand(data = data, var = 'light')
-  data$Ssand <- stand(data = data, var = 'sand')
+  data$Smicro_topography <- stand(data = data, var = "micro_topography")
+  data$Slight <- stand(data = data, var = "light")
+  data$Ssand <- stand(data = data, var = "sand")
   data$f.time <- factor(data$time)
   data$mortality <- (data$survival - 1) * -1 # create the mortality variable from survival data
   
@@ -132,7 +132,7 @@
               data = data)
   
   summary(r3)
-  save(r3, file = './src/analysis/sepilok-field-experiment/best-model.R')
+  save(r3, file = "./src/analysis/sepilok-field-experiment/best-model.R")
   return(list(model = r3))
   }
 })()

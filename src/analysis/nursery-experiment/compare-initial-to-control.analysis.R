@@ -1,34 +1,34 @@
-#' Compare intial wood density to the control analysis
+#" Compare intial wood density to the control analysis
 
-#' clear workspace 
+#" clear workspace 
 rm(list = ls())
 
-#' load packages 
+#" load packages 
 library(ggplot2)
-#' Load helper functions
-source('./src/utils/dAIC.R')
+#" Load helper functions
+source("./src/utils/dAIC.R")
 
-#' load inital trait data
+#" load inital trait data
 trait_data <- read.csv("./src/data/nursery-experiment/wood-density-nursery-base.raw.csv")
-#' load experiment data 
+#" load experiment data 
 exp_data <- read.csv("./src/data/nursery-experiment/wood-density-final.raw.csv")
 
-#' Prepairing the date from the control of the experiment (time = final)
+#" Prepairing the date from the control of the experiment (time = final)
 control_data <- exp_data[ which(exp_data$treatment == 0),] # control 
 control_data <- control_data[, c("species", "sp", "final_wood_density")] # select specific cols 
 names(control_data) <- c("species", "sp", "wood_density") # rename columns to fit the trait data
 control_data$time <- rep("final", length(control_data$species)) # time as a factor 
 
-#' Prepairing the trait data (time = initial)
+#" Prepairing the trait data (time = initial)
 trait_data <- trait_data[, c("species", "sp", "wood_density")]
 trait_data$time <- rep("initial", length(trait_data$species))
 
-#' combine the data frames 
+#" combine the data frames 
 data <- rbind(trait_data, control_data)
 data$time <- as.factor(data$time)
 
 # write this raw data to file for later use
-write.csv(data, './src/data/nursery-experiment/initial-control-wood-density.raw.csv', row.names = FALSE)
+write.csv(data, "./src/data/nursery-experiment/initial-control-wood-density.raw.csv", row.names = FALSE)
 
 # linear model testing for an interaction between species and time 
 head(data)

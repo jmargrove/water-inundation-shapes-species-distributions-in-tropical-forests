@@ -1,13 +1,13 @@
-#' Graphing the difference between the intial and control wood density in the nusery experiment. 
+#" Graphing the difference between the intial and control wood density in the nusery experiment. 
 rm(list = ls())
 # 
-analysis <- source('./src/analysis/nursery-experiment/delta-wood-density.analysis.R')$value 
+analysis <- source("./src/analysis/nursery-experiment/delta-wood-density.analysis.R")$value 
 # # load 
-# load('./src/analysis/nursery-experiment/compare-initial-to-control.model.R') # the model 
-# data <- read.csv('./src/data/nursery-experiment/initial-control-wood-density.raw.csv') # data 
-# source('./src/utils/units.R') # units 
-# source('./src/utils/theme.R') # theme 
-# source('./src/utils/labels.R') # theme 
+# load("./src/analysis/nursery-experiment/compare-initial-to-control.model.R") # the model 
+# data <- read.csv("./src/data/nursery-experiment/initial-control-wood-density.raw.csv") # data 
+# source("./src/utils/units.R") # units 
+# source("./src/utils/theme.R") # theme 
+# source("./src/utils/labels.R") # theme 
 # library(ggplot2) # load pakage ggplot2 
 # 
 # # view data 

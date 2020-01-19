@@ -2,15 +2,17 @@
 rm(list = ls())
 
 r6 <- "R6"
-if (r6 %in% rownames(installed.packages()) == FALSE){ # is R6 already installed?
-  print('Installing R6 classes package')
-  install.packages('R6', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package 
+if (r6 %in% rownames(installed.packages()) == FALSE) {
+    # is R6 already installed?
+    print('Installing R6 classes package')
+    install.packages('R6', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package 
 }
 library(R6) # load R56 package
 
-if ("utf8" %in% rownames(installed.packages()) == FALSE){ # is R6 already installed?
-  print('Installing utf8  classes package')
-  install.packages('utf8 ', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package
+if ("utf8" %in% rownames(installed.packages()) == FALSE) {
+    # is R6 already installed?
+    print('Installing utf8  classes package')
+    install.packages('utf8 ', repos = 'https://stat.ethz.ch/CRAN/') # install R6 package
 }
 library(utf8) # load R56 package
 
@@ -32,7 +34,7 @@ Packages <- R6Class("Packages",
             vegan = list(name = "vegan", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             raster = list(name = "raster", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             Hmisc = list(name = "Hmisc", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
-            extrafont= list(name = "extrafont", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
+            extrafont = list(name = "extrafont", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             svglite = list(name = "svglite", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             ggplot2 = list(name = "ggplot2", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
             systemfonts = list(name = "systemfonts", repos = "https://stat.ethz.ch/CRAN/", dep = TRUE),
@@ -41,12 +43,14 @@ Packages <- R6Class("Packages",
                             INLA = "https://inla.r-inla-download.org/R/stable"),
                         dep = TRUE)
           ),
-          # call function to install packages that are not currently on system
+# call function to install packages that are not currently on system
           checkAndInstallPackages = function() {
-            for (index in 1:length(self$packages)) { # loop for each packages 
+            for (index in 1:length(self$packages)) {
+                # loop for each packages 
                 package <- self$packages[[index]] # get the package from class
-                if (package$name %in% rownames(installed.packages()) == FALSE) { # isInstalled?
-                  # install package 
+                if (package$name %in% rownames(installed.packages()) == FALSE) {
+                    # isInstalled?
+                    # install package 
                     install.packages(package$name,
                                       repos = package$repos,
                                       dep = package$dep)
@@ -56,14 +60,14 @@ Packages <- R6Class("Packages",
                     )
                     utf8_print("\U0001f680")
                 } else {
-                  # package is already installed 
+                    # package is already installed 
                     print(
                       paste("No worries, you already have this package: ",
                         package$name,
                         sep = ""
                       )
                     )
-                  utf8_print("\U0001f680")
+                    utf8_print("\U0001f680")
                 }
             }
           }
