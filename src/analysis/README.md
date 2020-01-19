@@ -14,12 +14,14 @@ The analysis here are ordred as they appread in the paper:
 
 ### community elevation analysis
 
+Analysis creates a map of the 160 plot area, of the change in the species composition over the elevation gradient.
+
 ### inla-spde-species-distibutions
 
 Calculates the elevational associations of the speceis in the 160ha forest plot
 
+### sepilok field experiment
+
 ### nursery-experiment
 
-Analysis of nursery experiment data
-
-###
+Analysis of nursery experiment data on th change in wood density
