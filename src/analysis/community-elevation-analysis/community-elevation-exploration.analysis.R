@@ -35,7 +35,7 @@ species_short <- as.character(sp_data$sp)
 length(which(matSp[12, species_short] != 0)) # at high elevations
 length(which(matSp[1, species_short] != 0)) # at the lowest elevation 
 
-# Run ning NMDS from the vegan package
+# Run the NMDS from the vegan package
 m1 <- metaMDS(matSp)
 md1 <- m1$points[, 1] # we want the sites 
 

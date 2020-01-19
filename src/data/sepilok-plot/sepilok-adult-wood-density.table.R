@@ -48,18 +48,18 @@ data["Dipterocarpus caudiferus", "ref"] <- "Meijer &Wood(1964)"
 
 data["Hopea sangal", "density"] <- 0.7 # Martawaijaya et al. 1992
 data["Hopea sangal", "n"] <- 1
-data["Hopea sangal", "ref"] <-  "Martawaijaya et al. 1992"
+data["Hopea sangal", "ref"] <- "Martawaijaya et al. 1992"
 
-data["Shorea pauciflora", "density"] <- 0.61 
+data["Shorea pauciflora", "density"] <- 0.61
 data["Shorea pauciflora", "n"] <- 4
 
 data["Parashorea tomentella", "density"] <- 0.51 # Oey Djoen Seng (1951) in Soewarsono (1990)
 data["Parashorea tomentella", "n"] <- 1
-data["Parashorea tomentella", "ref"] <-  "Oey Djoen Seng (1951) in Soewarsono (1990)"
+data["Parashorea tomentella", "ref"] <- "Oey Djoen Seng (1951) in Soewarsono (1990)"
 
 data["Hopea spp.", "density"] <- mean(raw_data$wood_density[grep("Hopea", as.character(raw_data$species))], na.rm = TRUE)
 data["Hopea spp.", "n"] <- length(grep("Hopea", as.character(raw_data$species)))
-data
+
 
 write.csv(data, file = "./src/data/sepilok-adult-wood-density.table.csv", row.names = FALSE)
 

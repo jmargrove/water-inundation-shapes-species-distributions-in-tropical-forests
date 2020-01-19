@@ -8,10 +8,10 @@ library(arm)
 library(ggplot2)
 library(doSNOW)
 
-# load the dataframe the dataframe dataframe called data 
+# load the data frame and call the data
 source("./src/data/inla-spde-species-distributions/plot-occurance.dataframe.R")
-data <- occurance_data() # creates the occurance dataframe 
-str(data) # the dataframe 
+data <- occurance_data() # creates the occurrence data frame 
+str(data) # the data frame 
 # coords and the mesh 
 coords <- data[, c("longitude", "latitude")] # X Y coordinates of the plots 
 
@@ -23,7 +23,7 @@ spde <- inla.spde2.matern(m1, alpha = 2) # spde
 #Making the data stack, only for modeling the spatial effect
 A <- inla.spde.make.A(m1, loc = as.matrix(coords))
 
-# stack dataframe 
+# stack data frame 
 stk <- inla.stack(tag = "stk",
                  data = list(occ = sdata$occurance),
                  A = list(A, 1),
@@ -69,7 +69,7 @@ spc5 <- inla(occ ~ 0 + int + elev + I(elev ^ 2) + FocSp + FocSp:elev + FocSp:I(e
             control.fixed = list(expand.factor.strategy = "inla"),
             num.threads = 16, control.compute = list(cpo = TRUE))
 
-# Check the cpo values 
+# Check the conditional predictive ordinate values 
 cpo1 <- sum(log(spc1$cpo$cpo)) * -2
 cpo2 <- sum(log(spc2$cpo$cpo)) * -2
 cpo3 <- sum(log(spc3$cpo$cpo)) * -2
@@ -82,7 +82,7 @@ stopCluster(nclust)
 # extract the fixed effects from the model spc3 - the best model for the data 
 cf1 <- spc3$summary.fixed[, 1] # parameters 
 
-# consrtruct a dataframe of coef values for each species 
+# construct a data frame of coefficient values for each species 
 coefVals <- data.frame(int = c(cf1[1] + cf1[4:19]),
                        x1 = c(cf1[2] + cf1[20:35]),
                        x2 = rep(cf1[3], 16),
@@ -94,10 +94,10 @@ dtf <- sapply(1:16, function(x) {
     invlogit(spcf1(0:130))
 })
 
-dtf <- as.vector(dtf) # convert matrix to vector 
+dtf <- as.vector(dtf) # Convert matrix to vector 
 preds <- data.frame(sp = rep(sp, each = 131), p = dtf, elev = rep(0:130, times = 16))
 
-# calculate the most likely occurance (differentiate to find the peek occurance)
+# Calculate the most likely occurrence (differentiate to find the peek occurrence)
 pelev <- (-(coefVals[, 2]) / ((coefVals[, 3]) * 2))
 pelev_data <- data.frame(sp = levels(data$focal_sp), pelev = pelev)
 # save the predictions 
@@ -107,8 +107,8 @@ write.csv(pelev_data, file = "occurance.analysis.txt", row.names = F)
 # `mean sample`
 spc3$summary.fixed$mean
 
-# Now to calculate the 95% confidence intervals. Inla model needs to be run with the control.compute=list(config=TRUE)) 
-#" to calcualte the posteriour 
+# Now to calculate the 95% confidence intervals. INLA model needs to be run with the control.compute=list(config=TRUE)) 
+#" to calculate the posterior 
 # one sample
 require(INLA)
 require(foreach)

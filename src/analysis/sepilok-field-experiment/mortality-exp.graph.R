@@ -20,7 +20,7 @@
 
     mort_analysis$preds$fden <- rep(exp_density_data$fden, times = 2) # add the density factors
     mort_analysis$preds$occurance_probability <- rep(pelev_data$occurance_probability, times = 2) # add the occurance probabilities
-    mort_analysis$preds$fden <- relevel(mort_analysis$preds$fden, ref = "High wood density") # relevel the factor labels :)
+    mort_analysis$preds$fden <- relevel(mort_analysis$preds$fden, ref = "High wood density") # re-level the factor labels :)
     colnames(mort_analysis$preds)[which(colnames(mort_analysis$preds) == "flood")] <- "Water inundation" # flood -> water inundation
     levels(mort_analysis$preds$`Water inundation`) <- c("Dry", "Wet") # relabel high low to wet and dry
 

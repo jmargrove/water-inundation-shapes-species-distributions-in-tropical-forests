@@ -1,5 +1,5 @@
-# lm / gls analysis of the wood density elevation data 
-# module that does the gls analysis
+# lm / generalize least squares analysis of the wood density elevation data 
+# module that does the generalize least squares analysis
 (function() {
     data <- source("./src/data/wood-density-elevation-distribution/convert-density-points-matrix.dataframe.R")$value
     # step one. Simple linear model 
@@ -24,7 +24,7 @@
 
     # bootstrap the model
     # n = 5000  #number of bootstrapping samples, if n is not defined 10 rounds will be done. See "ternary" below
-    # Bootstrapping the predicitons for confidence intervals around taus
+    # Bootstrapping the predictions for confidence intervals around taus
     bootstrap_file_gls = "./src/analysis/wood-density-elevation-distribution/bootstrapped/"
     bootstrap_file_gls_lines <- paste(bootstrap_file_gls, "gls-ci-wood-density-elevation-distribution.csv", sep = "")
 
@@ -67,7 +67,9 @@
     }
 
 
-    return(list(preds = gls_preds,
-              model = model2)
-         )
+    return(
+        list(preds = gls_preds,
+              model = model2
+            )
+        )
 })()

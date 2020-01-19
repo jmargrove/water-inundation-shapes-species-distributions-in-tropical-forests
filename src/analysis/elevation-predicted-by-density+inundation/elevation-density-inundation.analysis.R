@@ -87,16 +87,16 @@
     CI975 <- c(density_CI[2], riskratio_CI[2])
     model_coefs <- data.frame(names, coefs, CI025, CI975)
 
-    # return the predictions, the model and the coefficients
     return(
-    list(
-      model = model2,
-      data = data,
-      preds_density = preds_density,
-      preds_riskratio = preds_riskratio,
-      coefs = model_coefs
-    )
-  )
+    # return the predictions, the model and the coefficients
+      list(
+        model = model2,
+        data = data,
+        preds_density = preds_density,
+        preds_riskratio = preds_riskratio,
+        coefs = model_coefs
+      )
+   )
 })()
 
 
