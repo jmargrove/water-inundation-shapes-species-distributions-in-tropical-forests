@@ -8,3 +8,13 @@ bootstapped
 pearson
 ggplot2
 bobyqa
+ggpubr
+lme4
+nlme
+quantreg
+gtable
+Hmisc
+extrafont
+svglite
+systemfonts
+utf8

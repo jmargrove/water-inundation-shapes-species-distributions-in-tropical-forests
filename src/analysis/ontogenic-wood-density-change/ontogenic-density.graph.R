@@ -3,53 +3,57 @@
     # load the analysis of the data 
     analysis <- source("./src/analysis/ontogenic-wood-density-change/ontogenic-density.analysis.R")$value
 
-    # load gg plot 
-    library(draw)
+    # Load R6 classes library
+    library(R6)
 
     # Set drawing settings
+    Settings <- R6Class("Settings",
+                        public = list(
+                            initialize = function() {
+                                # create height
+                                self$height = self$width / 3 * 2
+
+                                # create the x values 
+                                self$x = list(
+                                    max = self$width - self$border,
+                                    min = self$border,
+                                    mid = self$width / 2
+                                )
+
+                                # create the y values 
+                                self$y = list(
+                                    max = self$height - self$border,
+                                    min = self$border,
+                                    mid = self$height / 2
+                                )
+                                # create the data frame 
+                                self$data <- data.frame(
+                                    x = c(self$x$min, self$x$max, self$x$mid, self$x$min),
+                                    y = c(self$y$max, self$y$max, self$y$min, self$y$max),
+                                    lab = c("Seedling", "Adult", "Sapling", NA),
+                                    vj = c(1, 1, -1, NA) * self$vj
+                                    )
+
+                            },
+                            width = 120,
+                            height = NULL, # Initial value is null 
+                            border = 20,
+                            vj = 2,
+                            x = NULL, # Initial values to start 
+                            y = NULL, # Initial values to start
+                            data = NULL # Initial values to start 
+                        )
+                    )
 
 
-    # Create a new drawing page
-    drawPlot <- function() {
-        # re-do later today with gg plot 2
-        width <- 120
-        height <- width / 3 * 2
-        drawSettings(pageWidth = width,
-                 pageHeight = height,
-                 units = "px")
-        drawPage()
-    ? drawSettings
-        maxx <- width - 0.5
-        minx <- 0.5
-        midx <- width / 2
 
-        maxy <- height - 0.5
-        miny <- 0.5
-        midy <- height / 2
-        drawLine(x = c(minx, maxx, midx, minx),
-             y = c(maxy, maxy, miny, maxy))
+    settings <- Settings$new()
 
-        # r.squared
-        drawText(x = midx, y = midy, text = "r2", size = 24)
-
-        # draw on corner labels 
-        drawText(x = midx, y = miny, text = "Sapling", size = 24)
-        drawText(x = minx, y = maxy, text = "Seedling", size = 24)
-        drawText(x = maxx, y = maxy, text = "Adult", size = 24)
-
-        # Draw r squared values 
-        # seedling_sap 
-        drawText(x = (midx - minx) / 2 + minx, y = (maxy - miny) / 2 + miny,
-             text = round(analysis$r2[2, 2], 2),
-             size = 24)
-
-        # adult_sap
-        drawText(x = 3.5, y = 2.75,
-             text = round(analysis$r2[3, 2], 2),
-             size = 24)
-        drawText(x = 2.5, y = 3.7, text = round(analysis$r2[1, 2], 2), size = 24)
-    }
-
-    drawPlot()
+    ggplot(settings$data, aes(x = x, y = y)) +
+        geom_line() +
+        geom_text(aes(x = x, y = y, label = lab), nudge_y = settings$data$vj) +
+        xlim(0, settings$width) +
+        ylim(0, settings$height) +
+        theme_void()
 
 })()

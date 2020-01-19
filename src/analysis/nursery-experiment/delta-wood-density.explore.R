@@ -20,7 +20,7 @@ ggplot(exp_data, aes(x = log(treatment + 1), y = final_wood_density)) +
   geom_point() +
   stat_smooth(method = lm)
 
-#" plot final wood density prediced by the initial diameter 
+#" plot final wood density predicted by the initial diameter 
 ggplot(exp_data, aes(x = initial_diameter, y = final_wood_density)) +
   geom_point() +
   stat_smooth(method = lm)

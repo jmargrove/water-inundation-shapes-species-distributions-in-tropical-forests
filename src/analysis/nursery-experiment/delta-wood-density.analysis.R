@@ -51,9 +51,9 @@
     summary(model2)
     # Prediction data frame 
     prediction_dataframe <- expand.grid(
-        treatment = seq(0, 21, length 
-          
-        )
+        treatment = seq(0, 21, length  = 100),
+           initial_diameter = mean(exp_data$initial_diameter)
+    )
 
     # final wood density prediction.
     prediction_dataframe$delta_density <- predict(

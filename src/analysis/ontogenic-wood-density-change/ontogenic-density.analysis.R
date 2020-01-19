@@ -1,4 +1,4 @@
-# Ontogenic Wood density change module
+# Ontogenic wood density change module.
 (function() {
     # Load data
     seedling_data <- read.csv("./src/data/nursery-experiment/wood-density-base.table.csv")
