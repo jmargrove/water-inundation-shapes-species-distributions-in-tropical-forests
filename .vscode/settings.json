@@ -19,5 +19,14 @@
   "r.linting.trueFalseNames": true,
   "r.linting.upperCase": false,
   "r.linting.spaceBeforeOpenBrace": true,
-  "r.editor.spaceAfterComma": true
+  "r.editor.spaceAfterComma": true,
+  "spellright.language": [
+    "en"
+  ],
+  "spellright.documentTypes": [
+    "markdown",
+    "latex",
+    "plaintext",
+    "r"
+  ]
 }

@@ -1,5 +1,4 @@
 # Does wood density and inundation predict elevation 
-
 (function() {
     makeDataframe <- function() {
         # Import model & predictions 
@@ -40,6 +39,7 @@
     model3 <- update(model2, . ~ . - density)
     model4 <- update(model2, . ~ . - riskratio)
     AIC(model, model2, model3, model4)
+
     # Model 2 has fewer parameters with the lowest AIC 
     par(mfrow = c(2, 2))
     plot(model2) # checking the residuals 
@@ -87,7 +87,7 @@
     CI975 <- c(density_CI[2], riskratio_CI[2])
     model_coefs <- data.frame(names, coefs, CI025, CI975)
 
-    # return the predictions, the model and the coefs
+    # return the predictions, the model and the coefficients
     return(
     list(
       model = model2,

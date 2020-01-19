@@ -1,4 +1,4 @@
-# graphing the species probability distribution 
+# Graphing the species probability distribution 
 rm(list = ls())
 # Import packages 
 library(ggplot2)
