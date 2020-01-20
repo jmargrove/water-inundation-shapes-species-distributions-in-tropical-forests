@@ -71,15 +71,19 @@
     # anova explained variation 
     anova_explained_variation <- geom_text(aes(x = 0.42, y = 122, 
                                                label = density_explaied_variation), 
+                                           family = gg_theme$font_family,
                                            size = gg_theme$anova_text)
     # null model 
-    null_model <- stat_smooth(data = analysis$data, aes(x = density, y = elevation),
-                                    se = FALSE, method = "lm", color = themed$selectRed(),
-                                    linetype = 2, size = 0.5)
+    null_model <- stat_smooth(data = analysis$data, 
+                              aes(x = density, y = elevation),
+                              se = FALSE, method = "lm", 
+                              color = themed$selectRed(),
+                              linetype = 2, size = 0.5)
     # species labels 
     species_name_labels <- geom_text(data = analysis$data, aes(x = density, y = elevation, label = sp),
               nudge_y = vj,
               nudge_x = hj,
+              family="Times",
               fontface = "italic", size = gg_theme$species_names_size) 
     
     

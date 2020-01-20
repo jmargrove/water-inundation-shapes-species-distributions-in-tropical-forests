@@ -12,6 +12,8 @@ loadPlots <- function(){
 
 
 plots <- loadPlots()
+gg_theme <- source("./src/utils/gg-theme.graph.R")$value
+
 library(ggpubr)
 b <- ggarrange(
   plots$a$plot,
@@ -21,7 +23,7 @@ b <- ggarrange(
   # adding the labels 
   labels = c('a', 'b', 'c', 'd'),
   # styling the labels 
-  font.label = list(size = 14, face = "bold") 
+  font.label = list(size = 14, face = "bold", family = gg_theme$font_family) 
 )
 
 dims <- (209.9 - (25.4 * 2)) # full width of A4 * 2

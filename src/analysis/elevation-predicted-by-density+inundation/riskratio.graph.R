@@ -69,13 +69,15 @@
         
         # ANOVA values of the explained variation 
         anova_explained_variation <- geom_text(aes(x = 0.12, y = 122, 
-                                                   label = rr_explaied_variation), 
+                                                label = rr_explaied_variation), 
+                                               family = gg_theme$font_family, 
                                                size = gg_theme$anova_text) 
         # species names
         species_name_labels <-  geom_text(data = analysis$data, aes(x = riskratio, y = elevation, label = sp),
                                              size = gg_theme$species_names_size,
                                              nudge_y = vj_rr,
                                              nudge_x = hj_rr,
+                                          family = gg_theme$font_family,
                                              fontface = "italic") 
         null_model <- stat_smooth(data = analysis$data, aes(x = riskratio, y = elevation),
                                   se = F, method = "lm", color = themed$selectRed(),
