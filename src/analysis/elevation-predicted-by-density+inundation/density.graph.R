@@ -37,30 +37,67 @@
     hj[which(analysis$data$sp == "Ssem")] <- -0.025
     hj[which(analysis$data$sp == "Ptom")] <- -0.025
 
-    # plotting the data 
+    # Loading the themes
     themed <- source("./src/utils/theme.R")$value
-    p1_wooddensity <- ggplot(analysis$preds_density, aes(x = density, y = elevation)) +
-    geom_line(data = partial_lines_data, aes(x = x, y = y, group = factor(x)), alpha = 0.3) +
-    geom_line() +
-    geom_ribbon(aes(ymin = CI025, ymax = CI975), alpha = 0.2) +
-    geom_point(data = analysis$data, aes(y = partials_density, x = density),
-               color = themed$selectBlack(),
-               pch = 21,
-               fill = themed$selectLightGrey()) +
-    theme_bw() +
-    geom_point(data = analysis$data, aes(y = elevation, x = density), color = themed$selectRed()) +
-    geom_text(aes(x = 0.4, y = 120, label = density_explaied_variation)) +
-    ylab("E(elevation) m asl") +
-    xlab(expression("Adult wood density" ~ g ~ cm ^ -3)) +
-    stat_smooth(data = analysis$data, aes(x = density, y = elevation),
-                se = FALSE, method = "lm", color = themed$selectRed(),
-                linetype = 2, size = 0.5) +
-    theme(text = element_text(size = 20)) +
-    geom_text(data = analysis$data, aes(label = sp),
+    gg_theme <- source("./src/utils/gg-theme.graph.R")$value
+    
+    
+    # error ribbon
+    error_ribbon <- geom_ribbon(data = analysis$preds_density, 
+                                aes(x = density, 
+                                    y = elevation, 
+                                    ymin = CI025, 
+                                    ymax = CI975), 
+                                fill = gg_theme$ribbon_color,
+                                alpha = gg_theme$ribbon_alpha)
+    # the model line
+    model_line <- geom_line(data = analysis$preds_density, aes(x = density, y = elevation))
+    # partial residuals connection lines 
+    partial_residual_line <- geom_line(data = partial_lines_data, aes(x = x, y = y, group = factor(x)), alpha = 0.3)
+    # partial data points 
+    partial_data_points <- geom_point(data = analysis$data, aes(y = partials_density, x = density),
+                                      color = themed$selectBlack(),
+                                      pch = 21,
+                                      fill = themed$selectLightGrey(), 
+                                      size = gg_theme$partial_points_size) 
+    # raw data points 
+    raw_data_points <- geom_point(data = analysis$data, 
+                                  aes(y = elevation, x = density), 
+                                  size = gg_theme$raw_data_points_size,
+                                  color = themed$selectRed())
+    # axis labels 
+    xlabel <- xlab(expression("Adult wood density" ~ g ~ cm ^ -3))
+    ylabel <- ylab(bquote("E(elevation) m asl"^phantom("/")))
+    # anova explained variation 
+    anova_explained_variation <- geom_text(aes(x = 0.42, y = 122, 
+                                               label = density_explaied_variation), 
+                                           size = gg_theme$anova_text)
+    # null model 
+    null_model <- stat_smooth(data = analysis$data, aes(x = density, y = elevation),
+                                    se = FALSE, method = "lm", color = themed$selectRed(),
+                                    linetype = 2, size = 0.5)
+    # species labels 
+    species_name_labels <- geom_text(data = analysis$data, aes(x = density, y = elevation, label = sp),
               nudge_y = vj,
               nudge_x = hj,
-              fontface = "italic")
-
+              fontface = "italic", size = gg_theme$species_names_size) 
+    
+    
+    # Plotting the data 
+    p1 <- ggplot() +
+      partial_residual_line +
+      error_ribbon +
+      model_line +
+      null_model + 
+      partial_data_points +
+      raw_data_points +
+      ylabel +
+      xlabel +
+      anova_explained_variation + 
+      species_name_labels + 
+      gg_theme$t
+      
+  p1
     # returning the wood density graph
-    return(list(plot = p1_wooddensity, analysis = analysis))
+    return(list(plot = p1, analysis = analysis))
 })()

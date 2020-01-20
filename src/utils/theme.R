@@ -55,22 +55,7 @@
   
   return(Theme$new())
 })()
-# 
-# gErrorBars = function( ymin, ymax){
-#   return(
-#     geom_errorbar(aes(ymin = ymin, ymax = ymax), width = 0.2 ) 
-#   )
-#   
-# }
-# 
-# t = Theme$new()
-# t$selectBlack()
-# 
-# 
-# plotTheme <- function(){
-#   return(
-#     theme_bw() +
-#       theme(text=element_text(family="Times"))
-#   )
-# }
-# 
+
+
+
+

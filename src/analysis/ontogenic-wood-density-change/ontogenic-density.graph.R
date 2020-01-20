@@ -57,9 +57,10 @@
                             x = NULL, # Initial values to start 
                             y = NULL, # Initial values to start
                             data = NULL, # Initial values to start 
-                            text_size = 7, 
+                            text_size = 4, 
                             r_position = NULL,
                             plot = function(){
+                                gg_theme <- source("./src/utils/gg-theme.graph.R")$value
                                 p1 <- ggplot(self$data) +
                                     geom_line(data = self$data[c(1, 2), ], aes(x = x, y = y)) +
                                     geom_line(data = self$data[c(2, 3), ], aes(x = x, y = y)) +
@@ -67,8 +68,9 @@
                                     geom_text(aes(x = x, y = y, label = lab), nudge_y = self$data$vj, size = self$text_size) +
                                     xlim(0, self$width) +
                                     ylim(0, self$height) +
-                                    geom_text(data = self$center, aes(x = x, y = y, label = " R2 "), size = self$text_size)  +
+                                    geom_text(data = self$center, aes(x = x, y = y + 5, label = "r-squared"), size = self$text_size)  +
                                     geom_text(data = self$r_position, aes(x = x, y = y, label = r), size = self$text_size) +
+                                    gg_theme$t +
                                     theme_void()
                                 
                                 return(p1)

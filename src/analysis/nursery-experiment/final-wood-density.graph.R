@@ -7,6 +7,7 @@
     # Loading ggplot2 
     library(ggplot2)
 
+    gg_theme <- source('./src/utils/gg-theme.graph.R')$value
     # Model prediction
     pred_line <- geom_line()
 
@@ -15,10 +16,12 @@
                              aes(x = exp(`log(treatment + 1)`) - 1,
                                  y = final_wood_density,
                                  group = factor(`log(treatment + 1)`)),
-                             color = themed$selectBlue(), width = 1)
+                             color = themed$selectBlue(), size = 0.2, alpha = 0.5)
 
     # Confidence intervals 95% n = 5000
-    conf_int <- geom_ribbon(aes(ymin = CI025, ymax = CI975), fill = themed$selectMedGrey())
+    conf_int <- geom_ribbon(aes(ymin = CI025, ymax = CI975), 
+                            fill = gg_theme$ribbon_color, 
+                            alpha = gg_theme$ribbon_alpha)
 
     # Mean species line 
     base_density_data <- read.csv("./src/data/nursery-experiment/wood-density-nursery-base.raw.csv")
@@ -31,12 +34,16 @@
 
     # Compose the plot
     p1 <- ggplot(data = analysis$preds_treat, aes(x = treatment, y = final_wood_density)) +
-    raw_points +
+    # raw_points +
     conf_int +
     pred_line +
     base_density_line +
-    xlab("Treatment") + ylab("Final wood density g cm-3") +
-    theme_bw()
+    # xlab("Treatment") + 
+    xlab(bquote("Treatment"^phantom("/"))) +
+    ylab(bquote("Final wood density g cm"^-3)) +
+    # ylab(expression("" ~ g ~ cm ^ -3)) +
+    gg_theme$t
+    
 
     p1
     # Return the plot
