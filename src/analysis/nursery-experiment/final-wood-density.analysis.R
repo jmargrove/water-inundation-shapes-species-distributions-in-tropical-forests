@@ -77,5 +77,5 @@
 
     # Return the model, predictions, with confidence intervals and coefficients, with boot
     # strapped data.
-    return(list(mode = final_model, preds_treat = prediction_dataframe, coef = coef))
+    return(list(model = final_model, preds_treat = prediction_dataframe, coef = coef, data = exp_data))
 })()

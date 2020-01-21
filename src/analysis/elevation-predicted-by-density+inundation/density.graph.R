@@ -16,19 +16,22 @@
 
     # jittering the species names 
     vj <- rep(2.5, 16)
-    vj[which(analysis$data$sp == "Spar")] <- -5
+    vj[which(analysis$data$sp == "Spar")] <- -6
     vj[which(analysis$data$sp == "Smec")] <- -7
-    vj[which(analysis$data$sp == "Sfal")] <- 5
+    vj[which(analysis$data$sp == "Sfal")] <- 6
     vj[which(analysis$data$sp == "Sxan")] <- 22
     vj[which(analysis$data$sp == "Swal")] <- -5
+    vj[which(analysis$data$sp == "Sacu")] <- 3.1
+    vj[which(analysis$data$sp == "Ssmi")] <- 3.5
+    vj[which(analysis$data$sp == "Spau")] <- 3
 
     #horazontal 
     hj <- rep(0.01, 16)
-    hj[which(analysis$data$sp == "Spar")] <- -0.025
+    hj[which(analysis$data$sp == "Spar")] <- -0.03
     hj[which(analysis$data$sp == "Smec")] <- -0.02
     hj[which(analysis$data$sp == "Slep")] <- 0.02
     hj[which(analysis$data$sp == "Pmal")] <- -0.02
-    hj[which(analysis$data$sp == "Sacu")] <- -0.02
+    hj[which(analysis$data$sp == "Sacu")] <- 0
     hj[which(analysis$data$sp == "Sgib")] <- -0.02
     hj[which(analysis$data$sp == "Sbec")] <- 0.02
     hj[which(analysis$data$sp == "Spau")] <- 0.02

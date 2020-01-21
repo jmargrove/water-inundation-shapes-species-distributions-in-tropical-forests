@@ -10,11 +10,13 @@ loadPlots <- function(){
 }
 
 
-
+# load the plots 
 plots <- loadPlots()
+
+# additional themes
 gg_theme <- source("./src/utils/gg-theme.graph.R")$value
 
-library(ggpubr)
+library(ggpubr) # package to organise the plots
 b <- ggarrange(
   plots$a$plot,
   plots$b$plot,
@@ -28,6 +30,7 @@ b <- ggarrange(
 
 dims <- (209.9 - (25.4 * 2)) # full width of A4 * 2
 
+# save the panel plot for fig 3
 ggsave(b, file ='./src/figures/results-combind.fig3.png', width = dims, height = dims, units = "mm")
 
 

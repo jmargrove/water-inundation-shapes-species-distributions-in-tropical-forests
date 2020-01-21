@@ -31,10 +31,18 @@
                            intercept = mean(base_density_data$wood_density, na.rm = T),
                            linetype = 2,
                            color = themed$selectRed())
+    
+    # The raw data is very messy, I will try an add species means for each treatment
+    head(analysis$data)
+    mean_data <- expand.grid(treatment  = seq(0, 21, 3), sp = levels(analysis$data$sp))
+    mean_data$mean_density <- as.vector(with(analysis$data, tapply(final_wood_density, list(sp, treatment), mean, na.rm = TRUE)))
+    mean_data_points <- geom_point(data = mean_data, aes(x = treatment, y = mean_density))
 
+    
     # Compose the plot
     p1 <- ggplot(data = analysis$preds_treat, aes(x = treatment, y = final_wood_density)) +
     # raw_points +
+    # mean_data_points +
     conf_int +
     pred_line +
     base_density_line +
