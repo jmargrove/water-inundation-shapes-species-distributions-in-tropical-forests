@@ -1,4 +1,4 @@
-# combining the result figure 3 
+# combining the result figure 2
 rm(list = ls())
 loadPlots <- function(){
   panel_a <- source('./src/analysis/inla-spde-species-distributions/species-distribution.graph.R')$value 
