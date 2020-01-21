@@ -99,28 +99,5 @@
     
     p1
     
-    # p1 <- ggplot(analysis$preds_riskratio, aes(x = riskratio, y = elevation)) +
-    # geom_line(data = partial_lines_data, aes(x = x, y = y, group = factor(x)), alpha = 0.5) +
-    # geom_line() +
-    # geom_point(data = analysis$data, aes(y = elevation, x = riskratio), color = themed$selectRed()) +
-    # geom_ribbon(aes(ymin = CI025, ymax = CI975), alpha = gg_theme$ribbon_alpha) +
-    # geom_point(data = analysis$data, aes(y = partials_rr, x = riskratio),
-    #            color = themed$selectBlack(),
-    #            pch = 21,
-    #            fill = themed$selectLightGrey(), size = gg_theme$raw_data_points_size) +
-    # geom_text(aes(x = 0.12, y = 120, label = rr_explaied_variation), size = gg_theme$anova_text) +
-    # ylab("E(elevation) m asl") +
-    # xlab("Inundation sensitivity") +
-    # stat_smooth(data = analysis$data, aes(x = riskratio, y = elevation),
-    #             se = F, method = "lm", color = themed$selectRed(),
-    #             linetype = 2, size = 0.5) +
-    # geom_text(data = analysis$data, aes(label = sp),
-    #           size = gg_theme$species_names_size,
-    #           nudge_y = vj_rr,
-    #           nudge_x = hj_rr,
-    #           fontface = "italic") +
-    # gg_theme$t
-
-    # return the graph
     return(list(plot = p1, analysis = analysis))
 })()
