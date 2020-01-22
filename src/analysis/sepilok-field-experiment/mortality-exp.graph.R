@@ -39,7 +39,8 @@
     ylabel <- ylab("p(Mortality)")
     
     # points 
-    model_points <- geom_point(data = mort_analysis$preds, aes(x = reorder(sp, occurance_probability), y = mortality, fill = `Water inundation`), size = 2, pch = 21) 
+    model_points <- geom_point(data = mort_analysis$preds, aes(x = reorder(sp, occurance_probability), y = mortality, 
+                                                               fill = `Water inundation`), size = 2, pch = 21) 
     # point theme 
     point_theme <- scale_fill_manual(values = c(theme$selectBlack(), theme$selectRed()))
     # elevation ordering indication
