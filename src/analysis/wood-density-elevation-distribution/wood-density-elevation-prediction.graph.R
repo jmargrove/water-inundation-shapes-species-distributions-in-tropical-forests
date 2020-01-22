@@ -4,13 +4,13 @@
     data <- source("./src/data/wood-density-elevation-distribution/convert-density-points-matrix.dataframe.R")$value
 
     # model the quantile regression, with predictions
-    qr_analysis <- import(paste(dir, "qr-wood-density-elevation-distribution.analysis.R", sep = ""))
+    qr_analysis <- source(paste(dir, "qr-wood-density-elevation-distribution.analysis.R", sep = ""))$value
 
     # generalized least squares analysis with predictions 
-    gls_analysis <- import(paste(dir, "gls-wood-density-elevation-distribution.analysis.R", sep = ""))
+    gls_analysis <- source(paste(dir, "gls-wood-density-elevation-distribution.analysis.R", sep = ""))$value
 
     # colors 
-    theme <- import("./src/utils/theme.R")
+    theme <- source("./src/utils/theme.R")$value
 
     # Plot of the results 
     p1 <- ggplot(gls_analysis$preds, aes(x = density_mean, y = elevation_mean)) +
@@ -31,7 +31,9 @@
 
     return(
       list(
-        plot = p1
+        plot = p1, 
+        qr_analysis = qr_analysis,
+        gls_analysis = gls_analysis
       )
     )
     })()

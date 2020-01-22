@@ -29,4 +29,3 @@ dims <- (209.9 - (25.4 * 2)) # full width of A4 * 2
 
 # save the panel plot for fig 3
 ggsave(b, file ='./src/figures/graph.fig2.png', width = dims, height = dims, units = "mm")
-
