@@ -1,20 +1,23 @@
+# Creating the wood density graph showing variation.. explained by the model.
 (function() {
-    # import the model, predictions and the data
+    # Import the model, predictions and the data...
     analysis <- source("./src/analysis/elevation-predicted-by-density+inundation/elevation-density-inundation.analysis.R")$value
-    # calculating the partial residuals 
+    
+    # Calculating the partial residuals 
     analysis$data$partials_density <- residuals(analysis$model, type = "partial")[, 1] + mean(analysis$data$elevation)
-    # lines to join the partials 
+    
+    # Lines to join the partials 
     partial_lines_data <- data.frame(x = rep(analysis$data$density, 2),
-                                   y = c(analysis$data$elevation,
-                                   analysis$data$partials_density))
+                                     y = c(analysis$data$elevation,
+                                           analysis$data$partials_density)
+                                     )
 
-    # ANOVA type II to compare the variance 
+    # ANOVA to calculate the variance
     var_res_dd <- car::Anova(lm(elevation ~ density + riskratio, analysis$data))[, 1]
-    density_explaied_variation <- paste("ANOVA:",
-      round(var_res_dd / sum(var_res_dd) * 100, 1)[1],
-      "%")
+    exp_var_dd <-  round(var_res_dd / sum(var_res_dd) * 100, 1)[1]
+    density_explaied_variation <- paste("ANOVA:", exp_var_dd, "%")
 
-    # jittering the species names 
+    # Jittering the species names 
     vj <- rep(2.5, 16)
     vj[which(analysis$data$sp == "Spar")] <- -6
     vj[which(analysis$data$sp == "Smec")] <- -7
@@ -25,7 +28,7 @@
     vj[which(analysis$data$sp == "Ssmi")] <- 3.5
     vj[which(analysis$data$sp == "Spau")] <- 3
 
-    #horazontal 
+    # Horizontal 
     hj <- rep(0.01, 16)
     hj[which(analysis$data$sp == "Spar")] <- -0.03
     hj[which(analysis$data$sp == "Smec")] <- -0.02
@@ -43,68 +46,105 @@
     # Loading the themes
     themed <- source("./src/utils/theme.R")$value
     gg_theme <- source("./src/utils/gg-theme.graph.R")$value
+
+
+    # Error ribbon
+    ErrorComponent <- geom_ribbon(data = analysis$preds_density,
+                                  aes(x = density,
+                                      y = elevation,
+                                      ymin = CI025,
+                                      ymax = CI975),
+                                  fill = gg_theme$ribbon_color,
+                                  alpha = gg_theme$ribbon_alpha
+                                  )
     
-    
-    # error ribbon
-    error_ribbon <- geom_ribbon(data = analysis$preds_density, 
+    # The model line
+    ModelComponent <- geom_line(data = analysis$preds_density, 
                                 aes(x = density, 
-                                    y = elevation, 
-                                    ymin = CI025, 
-                                    ymax = CI975), 
-                                fill = gg_theme$ribbon_color,
-                                alpha = gg_theme$ribbon_alpha)
-    # the model line
-    model_line <- geom_line(data = analysis$preds_density, aes(x = density, y = elevation))
-    # partial residuals connection lines 
-    partial_residual_line <- geom_line(data = partial_lines_data, aes(x = x, y = y, group = factor(x)), alpha = 0.3)
-    # partial data points 
-    partial_data_points <- geom_point(data = analysis$data, aes(y = partials_density, x = density),
-                                      color = themed$selectBlack(),
-                                      pch = 21,
-                                      fill = themed$selectLightGrey(), 
-                                      size = gg_theme$partial_points_size) 
-    # raw data points 
-    raw_data_points <- geom_point(data = analysis$data, 
-                                  aes(y = elevation, x = density), 
+                                    y = elevation
+                                    )
+                                )
+    
+    # Partial residuals connection lines 
+    PartialDataLineComponent <- geom_line(data = partial_lines_data, 
+                                          aes(x = x, 
+                                              y = y, 
+                                              group = factor(x)
+                                              ), 
+                                          alpha = 0.3
+                                          )
+    
+    # Partial data points 
+    PartialDataComponent <- geom_point(data = analysis$data, 
+                                       aes(y = partials_density, 
+                                           x = density
+                                           ),
+                                       color = themed$selectBlack(),
+                                       pch = 21,
+                                       fill = themed$selectLightGrey(),
+                                       size = gg_theme$partial_points_size
+                                       )
+    # Raw data points 
+    RawDataComponent <- geom_point(data = analysis$data,
+                                  aes(y = elevation, 
+                                      x = density
+                                      ),
                                   size = gg_theme$raw_data_points_size,
-                                  color = themed$selectRed())
-    # axis labels 
+                                  color = themed$selectRed()
+                                  )
+    # Axis labels 
     xlabel <- xlab(expression("Adult wood density" ~ g ~ cm ^ -3))
-    ylabel <- ylab(bquote("E(elevation) m asl"^phantom("/")))
-    # anova explained variation 
-    anova_explained_variation <- geom_text(aes(x = 0.42, y = 122, 
-                                               label = density_explaied_variation), 
-                                           family = gg_theme$font_family,
-                                           size = gg_theme$anova_text)
-    # null model 
-    null_model <- stat_smooth(data = analysis$data, 
-                              aes(x = density, y = elevation),
-                              se = FALSE, method = "lm", 
-                              color = themed$selectRed(),
-                              linetype = 2, size = 0.5)
-    # species labels 
-    species_name_labels <- geom_text(data = analysis$data, aes(x = density, y = elevation, label = sp),
-              nudge_y = vj,
-              nudge_x = hj,
-              family="Times",
-              fontface = "italic", size = gg_theme$species_names_size) 
+    ylabel <- ylab(bquote("E(elevation) m asl" ^ phantom("/")))
     
-    
-    # Plotting the data 
+    # Anova explained variation 
+    AnovaComponent <- geom_text(aes(x = 0.42, 
+                                    y = 122,
+                                    label = density_explaied_variation
+                                    ),
+                                family = gg_theme$font_family,
+                                size = gg_theme$anova_text
+                                )
+    # Null model 
+    NullModelComponent <- stat_smooth(data = analysis$data,
+                                      aes(x = density, 
+                                          y = elevation
+                                          ),
+                                      se = FALSE, 
+                                      method = "lm",
+                                      color = themed$selectRed(),
+                                      linetype = 2, 
+                                      size = 0.5
+                                      )
+    # Species labels 
+    SpeciesNameComponent <- geom_text(data = analysis$data, 
+                                      aes(x = density, 
+                                          y = elevation, 
+                                          label = sp
+                                          ),
+                                      nudge_y = vj,
+                                      nudge_x = hj,
+                                      family = gg_theme$font_family,
+                                      fontface = "italic", 
+                                      size = gg_theme$species_names_size
+                                      )
+
+
+    # Combining components 
     p1 <- ggplot() +
-      partial_residual_line +
-      error_ribbon +
-      model_line +
-      null_model + 
-      partial_data_points +
-      raw_data_points +
+      PartialDataLineComponent +
+      ErrorComponent +
+      ModelComponent +
+      NullModelComponent +
+      PartialDataComponent +
+      RawDataComponent +
       ylabel +
       xlabel +
-      anova_explained_variation + 
-      species_name_labels + 
+      AnovaComponent +
+      SpeciesNameComponent +
       gg_theme$t
-      
-  p1
-    # returning the wood density graph
+
+    p1
+    
+    # Return the wood density graph
     return(list(plot = p1, analysis = analysis))
 })()
