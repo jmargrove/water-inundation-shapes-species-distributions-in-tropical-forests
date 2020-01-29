@@ -15,11 +15,18 @@
                       MEDGREY = "#A9A9A9",
                       LIGHTGREY = "#D3D3D3", 
                       DARKGREY = "#696969", 
-                      ALL = c("#8CB369", "#F4E285", "#4C8577","#F4A259", "#BC4B51")
+                      ALL = c("#8CB369", "#F4E285", "#4C8577","#F4A259", "#BC4B51"), 
+                      GREEN_GRAD = c("#232d29", "#6A9113")
                     ), 
                     selectRed = function(){
                       return(self$colors$RED)
-                    },                     
+                    },                         
+                    selectGreenLow = function(){
+                      return(self$colors$GREEN_GRAD[1])
+                    },          
+                    selectGreenHigh = function(){
+                      return(self$colors$GREEN_GRAD[2])
+                    },   
                     selectGreen = function(){
                       return(self$colors$GREEN)
                     }, 

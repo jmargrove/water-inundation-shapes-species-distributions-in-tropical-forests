@@ -34,9 +34,10 @@
   
   # Run the NMDS from the vegan package
   model <- metaMDS(matSp)
-  md1 <- m1$points[, 1] # we want the sites 
+  md1 <- model$points[, 1] # we want the sites 
   analysis <- list(
     model = model, 
+    bands = bands,
     data = plot_data
   )
   

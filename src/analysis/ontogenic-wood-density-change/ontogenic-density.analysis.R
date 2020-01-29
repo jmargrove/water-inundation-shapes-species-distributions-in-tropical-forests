@@ -36,9 +36,8 @@
         models = list(
           adult_seedling = adult_seedling_model,
           seedling_sapling = seedling_sapling_model,
-          adult_sapling = adult_sapling_model
+          adult_sapling = adult_sapling_model)
       )
-  )
     # Return the analysis 
     return(analysis)
 })()
