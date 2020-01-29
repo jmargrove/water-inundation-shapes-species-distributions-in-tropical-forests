@@ -10,7 +10,7 @@ plot_data <- read.csv("./src/data/sepilok-plot/sepilok-160ha-plot.raw.csv")
 plot_data <- subset(plot_data, sp != "Unkn" & DBH > 50) # get all individuals above 50
 plot_data <- droplevels(plot_data) # dropping levels 
 
-#Creating the factor elevation,
+# Creating the factor elevation,
 expected_n_bands <- 12
 plot_data$felv25 <- cut2(plot_data$elev, g = expected_n_bands, m = 100)
 bands <- cut2(plot_data$elev, g = expected_n_bands, m = 100, onlycuts = TRUE)
@@ -18,7 +18,7 @@ minElevation <- round(min(plot_data$elevation), 1)
 maxElevation <- round(max(plot_data$elevation), 1)
 elevationRange <- c(minElevation, maxElevation)
 bands[c(1, length(bands))] <- elevationRange
-# number of bands used
+# Number of bands used
 length(bands) - 1
 sd(with(plot_data, tapply(sp, felv25, length)))
 
@@ -56,8 +56,8 @@ for (i in 1:length(bands) - 1) {
     comPlot@data@values[cVals] <- md1[i]
 }
 
-# Using ggplot raster to map the image 
-# convert to ggplot format x, y, z 
+# Using gg plot raster to map the image 
+# convert to gg plot format x, y, z 
 ggCom <- as.data.frame(comPlot, xy = TRUE)
 colnames(ggCom) <- c("x", "y", "z")
 breaks <- round(seq(min(comPlot@data@values), 0.97, length = 5), 2)
@@ -66,7 +66,7 @@ breaks <- round(seq(min(comPlot@data@values), 0.97, length = 5), 2)
 ggplot(ggCom) + geom_raster(aes(x, y, fill = z)) +
   scale_fill_gradient(low = "#232d29", high = "#6A9113", name = "", breaks = breaks)
 
-#Export as a raster 
+# Export as a raster 
 writeRaster(comPlot, "./src/graphs/community-elevation-analysis.raster.tiff", format = "GTiff")
 
 

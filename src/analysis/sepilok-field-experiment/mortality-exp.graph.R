@@ -24,86 +24,89 @@
     colnames(mort_analysis$preds)[which(colnames(mort_analysis$preds) == "flood")] <- "Water inundation" # flood -> water inundation
     levels(mort_analysis$preds$`Water inundation`) <- c("Dry", "Wet") # relabel high low to wet and dry
 
-    
+
     gg_theme <- source('./src/utils/gg-theme.graph.R')$value
     themed <- source('./src/utils/theme.R')$value
-    
-    # error_bars 
-    error_bars <- geom_errorbar(data = mort_analysis$preds, 
-                                aes(x = reorder(sp, occurance_probability), y = mortality, group = `Water inundation`, ymin = CI025, ymax = CI975), 
-                                width = 0.3, color = themed$selectMedGrey(), 
-                                size = 0.3) 
-    # facet 
-    facet <- facet_grid(~fden, space = "free", scale = "free") 
-    xlabel <-  xlab("Species")
+
+    # Error_bars 
+    error_bars <- geom_errorbar(data = mort_analysis$preds,
+                                aes(x = reorder(sp, occurance_probability), y = mortality, group = `Water inundation`, ymin = CI025, ymax = CI975),
+                                width = 0.3, color = themed$selectMedGrey(),
+                                size = 0.3)
+    # Facet 
+    facet <- facet_grid(~fden, space = "free", scale = "free")
+
+    # Labels x & y axis
+    xlabel <- xlab("Species")
     ylabel <- ylab("p(Mortality)")
-    
-    # points 
-    model_points <- geom_point(data = mort_analysis$preds, aes(x = reorder(sp, occurance_probability), y = mortality, 
-                                                               fill = `Water inundation`), size = 2, pch = 21) 
-    # point theme 
+
+    # Points 
+    model_points <- geom_point(data = mort_analysis$preds, aes(x = reorder(sp, occurance_probability), y = mortality,
+                                                               fill = `Water inundation`), size = 2, pch = 21)
+    # Point theme 
     point_theme <- scale_fill_manual(values = c(theme$selectBlack(), theme$selectRed()))
+
     # elevation ordering indication
     yh <- 0.7
     jh <- 0.03
-    text_data <- data.frame(x = c(1 + 0.1, 7 - 0.1 , 1 + 0.1, 9 - 0.1),
-                            y = rep(yh + jh , 4),
+    text_data <- data.frame(x = c(1 + 0.1, 7 - 0.1, 1 + 0.1, 9 - 0.1),
+                            y = rep(yh + jh, 4),
                             fden = c('High wood density', 'High wood density', 'Low wood density', 'Low wood density'),
                             label = c('high', "low", 'high', "low")
                             )
-    
+
     text <- geom_text(data = text_data,
                       aes(x = x, y = y, label = label), size = 2,
                       family = gg_theme$font_family
                       )
-    # arrows 
-    line_data <- data.frame(x = c(1, 7, 1, 9), 
-                            y = c(yh, yh, yh, yh), 
+    # Arrows 
+    line_data <- data.frame(x = c(1, 7, 1, 9),
+                            y = c(yh, yh, yh, yh),
                             fden = c('High wood density', 'High wood density', 'Low wood density', 'Low wood density')
                             )
-    arrows <- geom_line(data = line_data, 
-                        aes(x = x, y = y, group = fden), 
-                        size = 0.25, 
+
+    arrows <- geom_line(data = line_data,
+                        aes(x = x, y = y, group = fden),
+                        size = 0.25,
                         arrow = arrow(ends = "both", length = unit(0.03, "npc")))
-    
-    # adding elevation (m) asl 
+
+    # Adding elevation (m) asl 
     elevation_text_position <- data.frame(x = c((1 + 7) / 2, (1 + 9) / 2),
-                                          y = rep(yh + jh , 2),
+                                          y = rep(yh + jh, 2),
                                           fden = c('High wood density', 'Low wood density'),
                                           label = rep(('Elevation (m) asl'), 2)
     )
-    
-    elevation_text <- geom_text(data = elevation_text_position, 
+
+    elevation_text <- geom_text(data = elevation_text_position,
                                 aes(x = x, y = y, label = label), size = 2, family = gg_theme$font_family)
-    
+
     # Graphing the results
     p1 <- ggplot() +
-          error_bars +
-          facet +
-          model_points +
-          point_theme +
-          xlabel +
-          ylabel +
-          gg_theme$t2 +
-          theme(axis.text.x = element_text(face = "italic", angle = 45, vjust = .7, family = gg_theme$font_family)) +
-        theme(strip.text = element_text(face = "italic", 
-                                        family = gg_theme$font_family, 
-                                        size = 8, 
-                                        margin = margin(t = 0.25, r = 0, b = 0.25, l = 0, unit = "mm"))) +
-    theme(axis.text = element_text(size = 8, family = gg_theme$font_family)) +
-    theme(axis.line = element_line(size = 0.2, color = themed$selectBlack())) +
-    theme(axis.ticks = element_line(size = 0.15)) +
-    theme(strip.background = element_rect(colour="black", size = 0.25), 
-          legend.title = element_text(family = gg_theme$font_family, size = 10), 
-          legend.key.width = unit(5, units = "mm"),
-          legend.box.spacing = unit(0, units = "mm"),
-          legend.box.margin = margin(0, 0, 0, 0, unit = 'mm')) + 
-    arrows +
-    text + 
-    elevation_text
-    
+            error_bars +
+            facet +
+            model_points +
+            point_theme +
+            xlabel +
+            ylabel +
+            gg_theme$t2 +
+            theme(axis.text.x = element_text(face = "italic", angle = 45, vjust = .7, family = gg_theme$font_family)) +
+            theme(strip.text = element_text(face = "italic",
+                                          family = gg_theme$font_family,
+                                          size = 8,
+                                          margin = margin(t = 0.25, r = 0, b = 0.25, l = 0, unit = "mm"))) +
+            theme(axis.text = element_text(size = 8, family = gg_theme$font_family)) +
+            theme(axis.line = element_line(size = 0.2, color = themed$selectBlack())) +
+            theme(axis.ticks = element_line(size = 0.15)) +
+            theme(strip.background = element_rect(colour = "black", size = 0.25),
+                  legend.title = element_text(family = gg_theme$font_family, size = 10),
+                  legend.key.width = unit(5, units = "mm"),
+                  legend.box.spacing = unit(0, units = "mm"),
+                  legend.box.margin = margin(0, 0, 0, 0, unit = 'mm')) +
+            arrows +
+            text +
+            elevation_text
+
     p1
 
     return(list(plot = p1))
 })()
-    

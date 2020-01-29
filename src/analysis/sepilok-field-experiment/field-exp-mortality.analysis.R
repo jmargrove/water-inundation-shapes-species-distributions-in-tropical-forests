@@ -21,7 +21,7 @@
         preds$CI975 <- CI[2,]
         return(list(model = r3, preds = preds))
     } else {
-        # function to standardise variables 
+        # function to standardize variables 
         stand <- function(data, var) {
             (data[, var] - mean(data[, var], na.rm = T)) / sd(data[, var], na.rm = T)
         }
@@ -41,7 +41,7 @@
         # Random effects
         #r1
         #Random effects are mother nested within sp, and plot (wl) nested within block. 
-        #The fixed effects specified are those that we a) hypothesied to have an effect, 
+        #The fixed effects specified are those that we a) hypothesized to have an effect, 
         #and from data exploration seed to have an effect.
         library("optimx")
         r1 <- glmer(mortality ~ log(diameter) + Smicro_topography + f.time + flood + sp + sp:flood +
@@ -66,7 +66,7 @@
 
         #Block is not needed. R3 is the best 
         #Fixed Effects Structure
-        #delta AIC must be more than 4AIC points for us to consider the more coomplex model better. 
+        #delta AIC must be more than 4AIC points for us to consider the more complex model better. 
 
         m1 <- update(r3, . ~ . - log(diameter) + diameter)
         dAIC(r3, m1)
@@ -124,7 +124,7 @@
         NARM_data <- data[!is.na(data$diameter),] # removes rows with NAs in diameter 
         NARM_data <- NARM_data[!is.na(NARM_data$mortality),] # removes rows with NAs in diameter 
         r4 <- update(r3, . ~ ., data = NARM_data, na.action = "na.fail")
-        dr4 <- dredge(r4, rank = "AIC", trace = TRUE) # dregde the rest to see what happens
+        dr4 <- dredge(r4, rank = "AIC", trace = TRUE) # dredge the rest to see what happens
         dr4
 
         r3 <- glmer(mortality ~ log(diameter) + micro_topography + f.time + flood + sp + sp:flood + (f.time | blockL:wl),

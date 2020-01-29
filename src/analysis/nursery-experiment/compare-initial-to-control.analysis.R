@@ -1,9 +1,9 @@
 # Compare initial wood density to the control analysis
 
-# clear workspace 
+# Clear workspace 
 rm(list = ls())
 
-# load packages 
+# Load packages 
 library(ggplot2)
 # Load helper functions
 source("./src/utils/dAIC.R")
