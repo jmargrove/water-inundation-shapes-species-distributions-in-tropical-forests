@@ -3,24 +3,24 @@
   # loading the required packages
   library(vegan);library(ggplot2);library(raster);library(Hmisc)  
   
-  # load and process the data 
-  
+  # Load and process the data 
   plot_data <- read.csv("./src/data/sepilok-plot/sepilok-160ha-plot.raw.csv")
   plot_data <- subset(plot_data, sp != "Unkn" & DBH > 50) # get all individuals above 50
-  plot_data <- droplevels(plot_data) # dropping levels 
+  plot_data <- droplevels(plot_data) # Dropping levels 
   
   # Creating the factor elevation,
   expected_n_bands <- 12
   plot_data$felv25 <- cut2(plot_data$elev, g = expected_n_bands, m = 100)
-  bands <- cut2(plot_data$elev, g = expected_n_bands, m = 100, onlycuts = TRUE)
-  minElevation <- round(min(plot_data$elevation), 1)
-  maxElevation <- round(max(plot_data$elevation), 1)
-  elevationRange <- c(minElevation, maxElevation)
-  bands[c(1, length(bands))] <- elevationRange
-  # Number of bands used
-  length(bands) - 1
-  sd(with(plot_data, tapply(sp, felv25, length)))
+
+  bands <- cut2(x = plot_data$elev, 
+                g = expected_n_bands, 
+                m = 100, 
+                onlycuts = TRUE)
   
+  # What is the elevation range of the plot?
+  elevationRange <- round(range(plot_data$elevation), 1)
+  bands[c(1, length(bands))] <- elevationRange
+
   # Creating the matrix for the analysis 
   matSp <- with(plot_data, as.matrix(tapply(sp, list(felv25, sp), length)))
   
@@ -34,7 +34,7 @@
   
   # Run the NMDS from the vegan package
   model <- metaMDS(matSp)
-  md1 <- model$points[, 1] # we want the sites 
+
   analysis <- list(
     model = model, 
     bands = bands,
