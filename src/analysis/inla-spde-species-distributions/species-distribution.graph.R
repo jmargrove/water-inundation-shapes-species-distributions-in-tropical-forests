@@ -5,7 +5,7 @@
   
   # Import plot data and the species lists 
   plot_data <- read.csv("./src/data/sepilok-plot/sepilok-160ha-plot.raw.csv")
-  spnames <- read.csv("./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv")
+  spnames <- source('./src/summary-tables/field-experiment-species-list.table.R')$value
   
   # Import predictions from the models 
   prediction_wd <- "./src/analysis/inla-spde-species-distributions/predictions/"

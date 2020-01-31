@@ -6,10 +6,11 @@
     names(seedling_data)[colIndex_seedling] <- "seedling_density"
 
     # Load sapling data 
-    sapling_data <- read.csv("./src/data/saplings/sepilok-wood-density-sapling.table.csv")
+    sapling_data <- source('./src/summary-tables/sepilok-wood-density-sapling.table.R')$value
     colIndex_sapling <- which(names(sapling_data) == "mean_wood_density") # which index is the density column
     names(sapling_data)[colIndex_sapling] <- "sapling_density" # assign new col name 
 
+    # Load adult data
     adult_data <- read.csv("./src/data/sepilok-plot/sepilok-adult-wood-density.table.csv")
     colIndex_adult <- which(names(adult_data) == "density")
     names(adult_data)[colIndex_adult] <- "adult_density"

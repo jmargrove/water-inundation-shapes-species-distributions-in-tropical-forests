@@ -1,13 +1,13 @@
-#' @title Sepilok plot table 
-#' @description summary of the Sepilok plot 
+#' summary of the Sepilok plot 
 
 rm(list = ls())
-source('./src/utils/units.R')
+units <- source('./src/utils/units.R')$value
 
 # Import the table data
-table <- read.csv('./src/summary-tables/species-list-plot.table.csv')
-plot_data <- read.csv('./src/data/sepilok-160ha-plot.raw.csv')
-density_data <- read.csv('./src/data/sepilok-adult-wood-density.table.csv')
+# table <- read.csv('./src/summary-tables/species-list-plot.table.csv')
+plot_data <- read.csv('./src/data/sepilok-plot/sepilok-160ha-plot.raw.csv')
+table <- unique(plot_data[, c("species", "sp")])
+density_data <- read.csv('./src/data/sepilok-plot/sepilok-adult-wood-density.table.csv')
 
 # Add minimum size limits 
 table$minimum_size <- aggregate(plot_data$minimum_size, by = list(plot_data$species), mean)[, 2]
@@ -18,7 +18,7 @@ table["count"] <- tapply(plot_data$DBH, plot_data$species, function(el) {
 })
 
 # calculate the mean DBH
-e[paste("DBH", mu)] <- tapply(plot_data$DBH, plot_data$species, function(el) {
+table[paste("DBH", units$mu)] <- tapply(plot_data$DBH, plot_data$species, function(el) {
     round(mean(el, na.rm = T), 1)
 })
 
@@ -26,11 +26,11 @@ e[paste("DBH", mu)] <- tapply(plot_data$DBH, plot_data$species, function(el) {
 names(table)[which(names(table) == 'species')] <- "Species"
 names(table)[which(names(table) == 'minimum_size')] <- "Min Size"
 
-#add wood density data
+# Add wood density data
 table$wood_density <- round(density_data$density, 2)
 table$ref <- density_data$ref
-
+table
 # write the table
-write.csv(table, file = './src/summary-tables/sepilok-plot.table.csv', row.names = FALSE)
+# write.csv(table, file = './src/summary-tables/sepilok-plot.table.csv', row.names = FALSE)
 
 

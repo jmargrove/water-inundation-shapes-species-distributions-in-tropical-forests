@@ -8,7 +8,7 @@
         # import the wood density data for partitioning
         plot_density_data <- read.csv("./src/data/sepilok-plot/sepilok-adult-wood-density.table.csv", header = TRUE)
         # import species data 
-        species_data <- read.csv("./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv")
+        species_data <- source('./src/summary-tables/field-experiment-species-list.table.R')$value
         exp_density_data <- plot_density_data[plot_density_data$sp %in% as.character(species_data$sp),]
 
         data <- data.frame(

@@ -2,17 +2,17 @@
 (function() {
     # Organise the data frame 
     setPlotData <- function() {
-        # load the data module 
+        # Load the data module 
         data <- source('./src/data/wood-density-elevation-distribution/add-density-to-plot.dataframe.R')$value
-        # 
-        # plot extent 
+
+        # Plot extent 
         plot_extent <- read.csv('./src/data/sepilok-plot/plot-extent.table.csv')
 
-        # plot distances  
+        # Plot distances  
         plotXlength = plot_extent[2, "latitude"] - plot_extent[1, "latitude"]
         plotYlength = plot_extent[3, "longitude"] - plot_extent[1, "longitude"]
 
-        # cut equally @ 50m for 1/4 ha forest plots 
+        # Cut equally @50m for 1/4 ha forest plots 
         nxcuts <- round(plotXlength / 50)
         nycuts <- round(plotYlength / 50)
 
@@ -39,6 +39,8 @@
                                )
                           )
                    )
+        
+        # Sample 
         n <- as.vector(unlist(with(data,
                                tapply(latitude, list(XCut, YCut),
                                       function(x) {
