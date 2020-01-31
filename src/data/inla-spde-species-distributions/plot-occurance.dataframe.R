@@ -1,7 +1,6 @@
 #' adult distribution data 
 #' The adult distribution data 
-
-occurance_data <- function() {
+(function() {
     #import the plot data and the species data 
     data_plot <- read.csv('./src/data/sepilok-plot/sepilok-160ha-plot.raw.csv') # plot 
     data_species <- read.csv('./src/data/sepilok-field-experiment/field-experiment-species-list.table.csv') # speces 
@@ -17,5 +16,7 @@ occurance_data <- function() {
         data_copy$focal_sp <- rep(sp, n)
         data <- rbind(data, data_copy)
     }
+    
+    # Return the organised data frame
     return(data)
-}
+})()
