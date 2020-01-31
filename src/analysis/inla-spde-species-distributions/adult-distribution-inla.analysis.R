@@ -2,11 +2,8 @@
 # This analysis is carried out on a multi core computer (16 cors) and still takes +24hours 
 # Clear the work space 
 rm(list = ls())
-# Packages required 
-library(INLA)
-library(arm)
-library(ggplot2)
-library(doSNOW)
+# Packages
+library(INLA);library(arm);library(ggplot2);library(doSNOW);
 
 # load the data frame and call the data
 source("./src/data/inla-spde-species-distributions/plot-occurance.dataframe.R")
@@ -70,19 +67,23 @@ spc5 <- inla(occ ~ 0 + int + elev + I(elev ^ 2) + FocSp + FocSp:elev + FocSp:I(e
             num.threads = 16, control.compute = list(cpo = TRUE))
 
 # Check the conditional predictive ordinate values 
-cpo1 <- sum(log(spc1$cpo$cpo)) * -2
-cpo2 <- sum(log(spc2$cpo$cpo)) * -2
-cpo3 <- sum(log(spc3$cpo$cpo)) * -2
-cpo4 <- sum(log(spc4$cpo$cpo)) * -2
-cpo5 <- sum(log(spc5$cpo$cpo)) * -2
+calcCPO <- function(cpos){
+    return(sum(log(cpos)) * -2)
+}
 
-# stop the cluster 
+cpo1 <- calcCPO(spc1$cpo$cpo)
+cpo2 <- calcCPO(spc2$cpo$cpo)
+cpo3 <- calcCPO(spc3$cpo$cpo)
+cpo4 <- calcCPO(spc4$cpo$cpo)
+cpo5 <- calcCPO(spc5$cpo$cpo)
+
+# Stop the cluster 
 stopCluster(nclust)
 
-# extract the fixed effects from the model spc3 - the best model for the data 
+# Extract the fixed effects from the model spc3 - the best model for the data given the CPO values 
 cf1 <- spc3$summary.fixed[, 1] # parameters 
 
-# construct a data frame of coefficient values for each species 
+# Construct a data frame of coefficient values for each species 
 coefVals <- data.frame(int = c(cf1[1] + cf1[4:19]),
                        x1 = c(cf1[2] + cf1[20:35]),
                        x2 = rep(cf1[3], 16),
