@@ -1,7 +1,7 @@
 # Adult distribution generalize linear model
 (function(){
   # Import data
-  data <- source("./src/data/inla-spde-species-distributions/plot-occurance.dataframe.R")$value
+  data <- source("./src/analysis/inla-spde-species-distributions/plot-occurance.dataframe.R")$value
   
   # Modeling occurrence data as a binomial generalized linear model  
   model <- glm(occurance ~ focal_sp * elevation + I(elevation ^ 2), family = "binomial", data = data)
@@ -31,6 +31,4 @@
   
   # return the values 
   return(result)
-
 })()
-

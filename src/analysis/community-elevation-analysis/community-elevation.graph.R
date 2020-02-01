@@ -4,7 +4,7 @@
   analysis <- source('./src/analysis/community-elevation-analysis/community-elevation-exploration.analysis.R')$value
   
   # Import the map
-  map_raw <- raster("./src/data/community-elevation-analysis/sepilok-160-dem.tiff") # This is the Sepilok, map
+  map_raw <- raster("./src/data/sepilok-160-dem.raw.tiff") # This is the Sepilok, map
   map <- raster::aggregate(map_raw, fact = 8) # descale the raster, resolution is too high
   
   e_crop <- extent(603945.651, 

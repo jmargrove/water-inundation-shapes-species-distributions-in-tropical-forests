@@ -6,7 +6,7 @@ rm(list = ls())
 library(INLA);library(arm);library(ggplot2);library(doSNOW);
 
 # load the data frame and call the data
-source("./src/data/inla-spde-species-distributions/plot-occurance.dataframe.R")
+source("./src/analysis/inla-spde-species-distributions/plot-occurance.dataframe.R")
 data <- occurance_data() # creates the occurrence data frame 
 str(data) # the data frame 
 # coords and the mesh 
