@@ -1,7 +1,7 @@
 #' Summary table of the sapling wood density data.
 (function() {
     # Import data 
-    data <- read.csv('./src/data/saplings/sepilok-wood-density-saplings.raw.csv') 
+    data <- read.csv('./src/data/sepilok-wood-density-saplings.raw.csv') 
     
     # Create summery table of the sapling data 
     summary_table <- data.frame(
