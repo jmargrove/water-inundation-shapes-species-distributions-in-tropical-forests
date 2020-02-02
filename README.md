@@ -2,7 +2,7 @@
 
 ## TL;DR
 
-👨‍🚀To just dive in and explore the analysis, I would go straight to the ```src/results/**``` and open the ```results.pdf``` to view main results in easy format. If cloned, can open ```src/results/results.md``` with RStudio and ```CMD + click``` on the source() file path to navigate around the file structure to find where data came from. 
+👨‍🚀To just dive in and explore the analysis, I would go straight to the ```src/results/**``` and open the (```results.pdf```)[https://github.com/t03jam8/water-inundation-shapes-species-distributions-in-tropical-forests/blob/master/src/results/results.pdf] to view main results in easy format. If cloned, can open ```src/results/results.md``` with RStudio and ```CMD + click``` on the source() file path to navigate around the file structure to find where data came from. 
 
 🚀Have fun Exploring!!!
 
