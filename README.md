@@ -27,7 +27,7 @@ Files often return an IIFE (Immediately invoked function expression), for instan
     return(val) # retuns
 })()
 ```
-I am using this format to avoid importing unnecessary variables ```a``` and ```b``` in the workspace when using ```source()```
+I am using this format to avoid importing unnecessary variables ```a``` and ```b``` in the workspace when using ```source()```, and to take advantage of closures to keep variables with the same name separate. Allowing for example to use the ```data``` variable name in all files where there is a main data frame for analysis.
 
 ```
 result <- source('./file/path)$value
