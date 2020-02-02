@@ -17,7 +17,7 @@
   plot <- (plot / max(plot@data@values)) * (137.9 - 55.9) + 55.9 # calibrate to digital data used in for species.
   rVals <- plot@data@values # the values of the raster 
   community_plot <- plot # new file for the community plot
-  plot(community_plot)
+
   
   # Adding in the new values per band
   for (i in 1:length(analysis$bands) - 1) {

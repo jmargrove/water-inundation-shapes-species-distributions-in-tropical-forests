@@ -28,7 +28,7 @@
     # Model validation of model2 
     pearson_resid <- resid(final_model, type = "pearson")
     fitted_values <- fitted(final_model)
-    plot(fitted_values, pearson_resid) # one outlier, i think the analysis is ok 
+    # plot(fitted_values, pearson_resid) # one outlier, i think the analysis is ok 
 
     summary(final_model)
     # Prediction data frame.

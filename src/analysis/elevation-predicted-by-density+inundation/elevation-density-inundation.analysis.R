@@ -12,11 +12,11 @@
         exp_density_data <- plot_density_data[plot_density_data$sp %in% as.character(species_data$sp),]
 
         data <- data.frame(
-      species = species_data$species,
-      sp = species_data$sp,
-      riskratio = mort_analysis$preds$mortality[17:32] - mort_analysis$preds$mortality[1:16],
-      elevation = pelev_data$occurance_probability,
-      density = exp_density_data$density
+          species = species_data$species,
+          sp = species_data$sp,
+          riskratio = mort_analysis$preds$mortality[17:32] - mort_analysis$preds$mortality[1:16],
+          elevation = pelev_data$occurance_probability,
+          density = exp_density_data$density
     )
 
         return(data)
@@ -24,7 +24,6 @@
 
     # init the data frame 
     data <- makeDataframe()
-    str(data)
     # quick plot 
     library(ggplot2)
     ggplot(data, aes(y = elevation, x = riskratio)) +
@@ -42,7 +41,7 @@
 
     # Model 2 has fewer parameters with the lowest AIC 
     par(mfrow = c(2, 2))
-    plot(model2) # checking the residuals 
+    # plot(model2) # checking the residuals 
     par(mfrow = c(1, 1)) # reset the plots 
     # residuals are fine, now too make the predictions 
 
