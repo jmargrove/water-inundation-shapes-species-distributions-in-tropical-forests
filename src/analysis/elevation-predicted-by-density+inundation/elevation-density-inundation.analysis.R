@@ -12,8 +12,8 @@
         exp_density_data <- plot_density_data[plot_density_data$sp %in% as.character(species_data$sp),]
 
         data <- data.frame(
-          species = species_data$species,
-          sp = species_data$sp,
+          species = exp_density_data$species,
+          sp = exp_density_data$sp,
           riskratio = mort_analysis$preds$mortality[17:32] - mort_analysis$preds$mortality[1:16],
           elevation = pelev_data$occurance_probability,
           density = exp_density_data$density

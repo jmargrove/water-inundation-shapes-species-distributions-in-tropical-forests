@@ -7,6 +7,7 @@
     return(list(a = panel_a, b = panel_b))
   }
 
+  panel_b$analysis
   
   # load the plots 
   plots <- loadPlots()

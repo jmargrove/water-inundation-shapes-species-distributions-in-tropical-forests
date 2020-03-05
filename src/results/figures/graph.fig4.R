@@ -1,8 +1,8 @@
 # combining the result figure 3 
 rm(list = ls())
 loadPlots <- function(){
-  panel_a <- source('./src/analysis/elevation-predicted-by-density+inundation/riskratio.graph.R')$value 
-  panel_b <- source('./src/analysis/elevation-predicted-by-density+inundation/density.graph.R')$value 
+  panel_a <- source('./src/analysis/ontogenic-wood-density-change/ontogenic-density.graph.R')$value # the triangle
+  panel_b <-  source('./src/analysis/nursery-experiment/final-wood-density.graph.R')$value 
   return(list(a = panel_a, b = panel_b))
 }
 
@@ -26,5 +26,6 @@ b <- ggarrange(
 dims <- (209.9 - (25.4 * 2)) # full width of A4 * 2
 b
 # save the panel plot for fig 3
-ggsave(plot = b, filename ='./src/results/figures/graph.fig3.png', width = dims, height = dims / 2, units = "mm", device = 'png')
+ggsave(b, file ='./src/results/figures/graph.fig4.png', width = dims, height = dims / 2, units = "mm")
+
 

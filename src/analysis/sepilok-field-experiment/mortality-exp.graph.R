@@ -107,6 +107,9 @@
             elevation_text
 
     p1
+    
+    
+    mort_diff <- with(mort_analysis$preds, tapply(mortality, sp, diff))
 
     return(list(plot = p1))
 })()
