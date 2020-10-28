@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+
 **/**/trash/*
 **/**/raw-data/*
 **/**/.DS_Store
