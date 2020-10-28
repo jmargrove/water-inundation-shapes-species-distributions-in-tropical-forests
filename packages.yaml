@@ -1,0 +1,4 @@
+name: water-inundation-shapes-species-distributions-in-tropical-forests
+version: 0.0.1
+depenencies:
+  extrafont: '0.17'
